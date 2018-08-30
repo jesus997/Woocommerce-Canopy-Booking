@@ -1,0 +1,11 @@
+#woocommerce-product-data {
+    ul.wc-tabs {
+        li {
+            &.canopy_tour_options {
+                a::before {
+                    content: "";
+                }
+            }
+        }
+    }
+}

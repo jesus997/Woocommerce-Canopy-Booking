@@ -1,0 +1,5 @@
+@charset "UTF-8";
+#woocommerce-product-data ul.wc-tabs li.canopy_tour_options a::before {
+  content: "\F527"; }
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIuL2FkbWluL2Nzcy93Y2ItYWRtaW4uY3NzIiwic291cmNlUm9vdCI6IiJ9*/
