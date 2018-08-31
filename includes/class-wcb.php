@@ -160,16 +160,16 @@ class WCB {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
 		if ($this->is_woocommerce_active()) {
-			$woo_ct = new WCB_Woocommerce_Canopy_Tour_Product_Type( $this->get_wcb(), $this->get_version() );
-
-			$this->loader->add_action( 'init', $woo_ct, 'register_canopy_tour_product_type' );
-			$this->loader->add_filter( 'product_type_selector', $woo_ct, 'add_canopy_tour_product' );
+			$woo_ct = new WCB_Woocommerce_CanopyTour_Product_Type( $this->get_wcb(), $this->get_version() );
+			$this->loader->add_action( 'init', $woo_ct, 'register_canopytour_product_type' );
+			$this->loader->add_filter( 'product_type_selector', $woo_ct, 'add_canopytour_product' );
+			$this->loader->add_filter( 'woocommerce_product_class', $woo_ct, 'get_tour_product_class', 10, 2 ); 
 			$this->loader->add_action( 'admin_head', $woo_ct, 'wcb_admin_head' );
 			$this->loader->add_action( 'admin_footer', $woo_ct, 'wcb_admin_footer' );
-			$this->loader->add_filter( 'woocommerce_product_data_tabs', $woo_ct, 'add_canopy_tour_tab' );
-			/* $this->loader->add_action( 'woocommerce_product_data_panels', $woo_ct, 'canopy_tour_options_product_tab_content' );
-			$this->loader->add_action( 'woocommerce_process_product_meta_simple_rental', $woo_ct, 'save_canopy_tour_option_field'  );
-			$this->loader->add_action( 'woocommerce_process_product_meta_variable_rental', $woo_ct, 'save_canopy_tour_option_field'  ); */
+			$this->loader->add_filter( 'woocommerce_product_data_tabs', $woo_ct, 'add_canopytour_tab' );
+			$this->loader->add_action( 'woocommerce_product_data_panels', $woo_ct, 'canopytour_options_product_tab_content' );
+			$this->loader->add_action( 'woocommerce_process_product_meta_simple_rental', $woo_ct, 'save_canopytour_option_field'  );
+			$this->loader->add_action( 'woocommerce_process_product_meta_variable_rental', $woo_ct, 'save_canopytour_option_field'  );
 			$this->loader->add_filter( 'woocommerce_product_data_tabs', $woo_ct, 'hide_wcb_data_panel' );
 
 			$this->loader->add_action( 'woocommerce_product_options_pricing', $woo_ct, 'wcb_children_product_field' );

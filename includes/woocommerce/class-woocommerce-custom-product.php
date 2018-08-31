@@ -1,6 +1,6 @@
 <?php
 
-class WCB_Woocommerce_Canopy_Tour_Product_Type {
+class WCB_Woocommerce_CanopyTour_Product_Type {
 	private $wcb;
 	private $version;
 
@@ -9,13 +9,20 @@ class WCB_Woocommerce_Canopy_Tour_Product_Type {
 		$this->version = $version;
 	}
 
-	public function register_canopy_tour_product_type() {
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_canopy_tour.php';
+	public function register_canopytour_product_type() {
+		include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_canopytour.php');
 	}
 
-	public function add_canopy_tour_product( $types ) {
-		$types[ 'canopy_tour' ] = __( 'Canopy Tour', $this->wcb );
+	public function add_canopytour_product( $types ) {
+		$types[ 'canopytour' ] = __( 'Canopy Tour', $this->wcb );
 		return $types;
+	}
+
+	public function get_tour_product_class($classname, $product_type) {
+		if ( $product_type === "canopytour" ) {
+			$classname = 'WC_Product_CanopyTour';
+		}
+		return $classname;
 	}
 
 	public function wcb_admin_head() {
@@ -29,54 +36,30 @@ class WCB_Woocommerce_Canopy_Tour_Product_Type {
 	
 		?><script type='text/javascript'>
 			jQuery( document ).ready( function() {
-				jQuery( '.options_group.pricing' ).addClass( 'show_if_canopy_tour show_if_variable_canopy_tour show_if_simple show_if_external' ).show();
-				jQuery( 'li.general_options.general_tab' ).addClass( 'show_if_canopy_tour show_if_variable_canopy_tour show_if_simple show_if_external' ).show();
+				jQuery( '.options_group.pricing' ).addClass( 'show_if_canopytour show_if_variable_canopytour show_if_simple show_if_external' ).show();
+				jQuery( 'li.general_options.general_tab' ).addClass( 'show_if_canopytour show_if_variable_canopytour show_if_simple show_if_external' ).show();
 			});
 		</script><?php
 	}
 
-	public function add_canopy_tour_tab($tabs) {
-		$tabs['canopy_tour'] = array(
+	public function add_canopytour_tab($tabs) {
+		$tabs['canopytour'] = array(
 			'label'		=> __( 'Canopy Tour', 'woocommerce' ),
-			'target'	=> 'canopy_tour_options',
-			'class'		=> array( 'show_if_canopy_tour', 'show_if_variable_canopy_tour'  ),
+			'target'	=> 'canopytour_options',
+			'class'		=> array( 'show_if_canopytour', 'show_if_variable_canopytour'  ),
 		);
 		return $tabs;
 	}
 
-	public function canopy_tour_options_product_tab_content() {
+	public function canopytour_options_product_tab_content() {
 		global $post; ?>
-
-		<div id='canopy_tour_options' class='panel woocommerce_options_panel'><?php
-			?><div class='options_group'><?php
-				woocommerce_wp_textarea_input(
-					array(
-					'id' => '_activity_schedules',
-					'label' => __( 'Schedules', 'dfd-native_child' ),
-					'placeholder' => '',
-					'description' => __( 'Enter the time available for this activity. Separated by comma.', 'dfd-native_child' ),
-					'custom_attributes' => array(
-						'rows' => "2"
-					)
-					)
-				);
-			
-				woocommerce_wp_textarea_input(
-					array(
-						'id' => '_need_transportation',
-						'label' => __( 'Transportation stops', 'dfd-native_child' ),
-						'placeholder' => '{"place": ["hour", "other hour", "more hour"]}',
-						'description' => __( 'Enter transportation stops for this tour. In JSON format.', 'dfd-native_child' ),
-						'custom_attributes' => array(
-							'rows' => "2"
-						)
-					)
-				); ?>
+		<div id='canopytour_options' class='panel woocommerce_options_panel'>
+			<div class='options_group'>
 			</div>
 		</div><?php
 	}
 
-	function save_canopy_tour_option_field( $post_id ) {
+	function save_canopytour_option_field( $post_id ) {
 		$new = $_POST['_activity_schedules'];
 		$old = get_post_meta($post_id, "_activity_schedules", true );
 		if ($new !== $schedule_old) {
@@ -92,7 +75,7 @@ class WCB_Woocommerce_Canopy_Tour_Product_Type {
 
 	function hide_wcb_data_panel( $tabs) {
 		// Other default values for 'attribute' are; general, inventory, shipping, linked_product, variations, advanced
-		$tabs['shipping']['class'][] = 'hide_if_canopy_tour hide_if_variable_canopy_tour';
+		$tabs['shipping']['class'][] = 'hide_if_canopytour hide_if_variable_canopytour';
 		return $tabs;
 	}
 

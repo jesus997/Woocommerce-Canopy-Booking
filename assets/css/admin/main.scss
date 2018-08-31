@@ -1,9 +1,34 @@
 #woocommerce-product-data {
     ul.wc-tabs {
         li {
-            &.canopy_tour_options {
+            &.canopytour_options {
                 a::before {
                     content: "";
+                }
+            }
+        }
+    }
+}
+
+#canopytour_options {
+    .options_group {
+        padding: 1rem;
+
+        .acf-postbox {
+            margin-bottom: 0;
+
+            .acf-field {
+                .acf-label {
+                    label {
+                        float: none;
+                        width: auto;
+                    }
+                }
+            }
+
+            .acf-input {
+                input {
+                    width: 100%;
                 }
             }
         }
