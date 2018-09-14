@@ -124,6 +124,10 @@ class WCB {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/woocommerce/class-woocommerce-custom-product.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcb-acf-plugin.php';
+
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcb-post-types.php';
+
 		$this->loader = new WCB_Loader();
 
 	}
@@ -143,6 +147,10 @@ class WCB {
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
+	}
+
+	function acf_google_maps_key() {
+		acf_update_setting('google_api_key', 'AIzaSyC6aoeblNPqB5ub3RDd5dw17iWRHczZeD0');
 	}
 
 	/**
@@ -166,15 +174,16 @@ class WCB {
 			$this->loader->add_filter( 'woocommerce_product_class', $woo_ct, 'get_tour_product_class', 10, 2 ); 
 			$this->loader->add_action( 'admin_head', $woo_ct, 'wcb_admin_head' );
 			$this->loader->add_action( 'admin_footer', $woo_ct, 'wcb_admin_footer' );
-			$this->loader->add_filter( 'woocommerce_product_data_tabs', $woo_ct, 'add_canopytour_tab' );
-			$this->loader->add_action( 'woocommerce_product_data_panels', $woo_ct, 'canopytour_options_product_tab_content' );
-			$this->loader->add_action( 'woocommerce_process_product_meta_simple_rental', $woo_ct, 'save_canopytour_option_field'  );
-			$this->loader->add_action( 'woocommerce_process_product_meta_variable_rental', $woo_ct, 'save_canopytour_option_field'  );
 			$this->loader->add_filter( 'woocommerce_product_data_tabs', $woo_ct, 'hide_wcb_data_panel' );
+
+			$this->loader->add_action('woocommerce_after_product_attribute_settings', $woo_ct, 'wcb_add_product_attribute_is_highlighted', 10, 2);
+			$this->loader->add_action('wp_ajax_woocommerce_save_attributes', $woo_ct, 'wcb_ajax_woocommerce_save_attributes', 10);
 
 			$this->loader->add_action( 'woocommerce_product_options_pricing', $woo_ct, 'wcb_children_product_field' );
 			$this->loader->add_action( 'save_post', $woo_ct, 'wcb_children_price_save_product' );
 		}
+
+		$this->loader->add_action('acf/init', $this, 'acf_google_maps_key');
 	}
 
 	/**

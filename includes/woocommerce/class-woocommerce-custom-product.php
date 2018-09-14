@@ -38,45 +38,48 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 			jQuery( document ).ready( function() {
 				jQuery( '.options_group.pricing' ).addClass( 'show_if_canopytour show_if_variable_canopytour show_if_simple show_if_external' ).show();
 				jQuery( 'li.general_options.general_tab' ).addClass( 'show_if_canopytour show_if_variable_canopytour show_if_simple show_if_external' ).show();
+				jQuery( '#acf-group_5b9a99cc823ec' ).addClass( 'show_if_canopytour show_if_variable_canopytour' );
 			});
 		</script><?php
-	}
-
-	public function add_canopytour_tab($tabs) {
-		$tabs['canopytour'] = array(
-			'label'		=> __( 'Canopy Tour', 'woocommerce' ),
-			'target'	=> 'canopytour_options',
-			'class'		=> array( 'show_if_canopytour', 'show_if_variable_canopytour'  ),
-		);
-		return $tabs;
-	}
-
-	public function canopytour_options_product_tab_content() {
-		global $post; ?>
-		<div id='canopytour_options' class='panel woocommerce_options_panel'>
-			<div class='options_group'>
-			</div>
-		</div><?php
-	}
-
-	function save_canopytour_option_field( $post_id ) {
-		$new = $_POST['_activity_schedules'];
-		$old = get_post_meta($post_id, "_activity_schedules", true );
-		if ($new !== $schedule_old) {
-			update_post_meta($post_id, '_activity_schedules', esc_html($new));
-		}
-
-		$new = $_POST['_need_transportation'];
-		$old = get_post_meta($post_id, "_need_transportation", true );
-		if ($new !== $old) {
-			update_post_meta($post_id, '_need_transportation', $new);
-		}
 	}
 
 	function hide_wcb_data_panel( $tabs) {
 		// Other default values for 'attribute' are; general, inventory, shipping, linked_product, variations, advanced
 		$tabs['shipping']['class'][] = 'hide_if_canopytour hide_if_variable_canopytour';
 		return $tabs;
+	}
+
+	function wcb_add_product_attribute_is_highlighted($attribute, $i=0) {
+		$value = get_attribute_highlighted($attribute->get_name(), $i); ?>
+		<tr>
+			<td>
+				<div class="enable_highlighted show_if_canopytour show_if_variable_canopytour">
+					<label><input type="hidden" name="attribute_highlighted[<?php echo esc_attr( $i ); ?>]" value="0" /><input type="checkbox" class="checkbox" <?php checked( $value, true ); ?> name="attribute_highlighted[<?php echo esc_attr( $i ); ?>]" value="1" /> <?php esc_html_e( 'Highlight attribute', $this->wcb ); ?></label>
+				</div>
+			</td>
+		</tr>
+	<?php
+	}
+
+	function wcb_ajax_woocommerce_save_attributes() {
+		check_ajax_referer( 'save-attributes', 'security' );
+		parse_str( $_POST['data'], $data );
+		$post_id = absint( $_POST['post_id'] );
+		if(array_key_exists("attribute_highlighted", $data) && is_array($data["attribute_highlighted"])) {
+			foreach($data["attribute_highlighted"] as $i => $val) {
+				$attr_name = sanitize_title($data["attribute_names"][$i]);
+				$attr_name = strtolower($attr_name);
+				update_post_meta( $post_id, "attribute_".$attr_name."_highlighted_".$i, wc_string_to_bool($val) );
+			}
+		}
+	}
+ 
+	function wcb_admin_meta_boxes_prepare_attribute($attribute, $data, $i=0) {
+		if(array_key_exists("attribute_highlighted", $data) && is_array($data["attribute_highlighted"])) {
+			global $post;
+			update_post_meta( $post->ID, "attribute_".$attribute->get_id()."_highlighted_".$i, wc_string_to_bool($data["attribute_highlighted"][$i]) );
+		}
+		return $attribute;
 	}
 
 	/**

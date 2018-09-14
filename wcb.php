@@ -58,6 +58,14 @@ function deactivate_wcb() {
 register_activation_hook( __FILE__, 'activate_wcb' );
 register_deactivation_hook( __FILE__, 'deactivate_wcb' );
 
+function get_attribute_highlighted($id, $i) {
+	global $post;
+	$id = sanitize_title($id);
+	$id = strtolower($id);
+	$val = get_post_meta( $post->ID, "attribute_".$id."_highlighted_".$i, true);
+	return !empty($val) ? $val : false;
+}
+
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
