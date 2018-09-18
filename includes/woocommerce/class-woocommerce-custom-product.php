@@ -103,5 +103,31 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 		   if ( is_numeric( $_POST['price_children'] ) )
 			   update_post_meta( $product_id, 'price_children', $_POST['price_children'] );
 	   } else delete_post_meta( $product_id, 'price_children' );
-   }
+	}
+
+	function wcb_canopytour_add_to_cart() {
+		woocommerce_canopytour_add_to_cart();
+	}
+
+	function wcb_woocommerce_locate_template( $template, $template_name, $template_path ) {
+		global $woocommerce;
+		$_template = $template;
+		if ( ! $template_path ) $template_path = $woocommerce->template_url;
+		$plugin_path  = wcb_plugin_path() . '/woocommerce/';
+
+		$template = locate_template(
+		  array(
+			$template_path . $template_name,
+			$template_name
+		  )
+		);
+
+		if ( ! $template && file_exists( $plugin_path . $template_name ) )
+		  $template = $plugin_path . $template_name;
+	  
+		if ( ! $template )
+		  $template = $_template;
+	  
+		return $template;
+	}
 }

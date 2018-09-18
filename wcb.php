@@ -58,12 +58,20 @@ function deactivate_wcb() {
 register_activation_hook( __FILE__, 'activate_wcb' );
 register_deactivation_hook( __FILE__, 'deactivate_wcb' );
 
+function wcb_plugin_path() {
+	return untrailingslashit( plugin_dir_path( __FILE__ ) );
+}
+
 function get_attribute_highlighted($id, $i) {
 	global $post;
 	$id = sanitize_title($id);
 	$id = strtolower($id);
 	$val = get_post_meta( $post->ID, "attribute_".$id."_highlighted_".$i, true);
 	return !empty($val) ? $val : false;
+}
+
+function woocommerce_canopytour_add_to_cart() {
+	wc_get_template( "single-product/add-to-cart/canopytour.php" );
 }
 
 /**

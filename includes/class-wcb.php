@@ -176,11 +176,14 @@ class WCB {
 			$this->loader->add_action( 'admin_footer', $woo_ct, 'wcb_admin_footer' );
 			$this->loader->add_filter( 'woocommerce_product_data_tabs', $woo_ct, 'hide_wcb_data_panel' );
 
-			$this->loader->add_action('woocommerce_after_product_attribute_settings', $woo_ct, 'wcb_add_product_attribute_is_highlighted', 10, 2);
-			$this->loader->add_action('wp_ajax_woocommerce_save_attributes', $woo_ct, 'wcb_ajax_woocommerce_save_attributes', 10);
+			$this->loader->add_action( 'woocommerce_after_product_attribute_settings', $woo_ct, 'wcb_add_product_attribute_is_highlighted', 10, 2);
+			$this->loader->add_action( 'wp_ajax_woocommerce_save_attributes', $woo_ct, 'wcb_ajax_woocommerce_save_attributes', 10);
 
 			$this->loader->add_action( 'woocommerce_product_options_pricing', $woo_ct, 'wcb_children_product_field' );
 			$this->loader->add_action( 'save_post', $woo_ct, 'wcb_children_price_save_product' );
+
+			$this->loader->add_action( 'woocommerce_canopytour_add_to_cart', $woo_ct, 'wcb_canopytour_add_to_cart', 30);
+			$this->loader->add_filter( 'woocommerce_locate_template', $woo_ct, 'wcb_woocommerce_locate_template', 10, 3 );
 		}
 
 		$this->loader->add_action('acf/init', $this, 'acf_google_maps_key');
