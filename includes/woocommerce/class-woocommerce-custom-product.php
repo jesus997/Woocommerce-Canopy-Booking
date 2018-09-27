@@ -10,6 +10,8 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 	}
 
 	public function register_canopytour_product_type() {
+		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+		
 		include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_canopytour.php');
 	}
 

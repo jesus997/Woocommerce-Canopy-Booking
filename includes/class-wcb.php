@@ -124,6 +124,8 @@ class WCB {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/woocommerce/class-woocommerce-custom-product.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/woocommerce/class-woocommerce-extra-data.php';
+
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcb-acf-plugin.php';
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcb-post-types.php';
@@ -184,6 +186,14 @@ class WCB {
 
 			$this->loader->add_action( 'woocommerce_canopytour_add_to_cart', $woo_ct, 'wcb_canopytour_add_to_cart', 30);
 			$this->loader->add_filter( 'woocommerce_locate_template', $woo_ct, 'wcb_woocommerce_locate_template', 10, 3 );
+
+			$woo_ed = new WCB_Woocommerce_Extra_Data( $this->get_wcb(), $this->get_version() );
+			$this->loader->add_filter( 'woocommerce_add_cart_item_data', $woo_ed,'tours_add_item_data', 10, 3);
+			$this->loader->add_filter( 'woocommerce_get_item_data', $woo_ed,'tours_add_item_meta',10, 2);
+			$this->loader->add_action( 'woocommerce_checkout_create_order_line_item', $woo_ed, 'tours_add_custom_order_line_item_meta', 10, 4);
+			$this->loader->add_action( 'woocommerce_before_calculate_totals', $woo_ed, 'tours_calculate_totals', 99 );
+			$this->loader->add_filter( 'woocommerce_attribute_label', $woo_ed, 'tours_woocommerce_attribute_label', 10, 3 );
+
 		}
 
 		$this->loader->add_action('acf/init', $this, 'acf_google_maps_key');

@@ -1,4 +1,7 @@
 @charset "UTF-8";
+.post-type-transtops .updated a {
+  display: none; }
+
 #woocommerce-product-data ul.wc-tabs li.canopytour_options a::before {
   content: "\F527"; }
 

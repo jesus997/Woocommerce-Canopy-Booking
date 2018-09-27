@@ -74,6 +74,97 @@ function woocommerce_canopytour_add_to_cart() {
 	wc_get_template( "single-product/add-to-cart/canopytour.php" );
 }
 
+function value($key, $default=false, $id=false) {
+	if (substr($key, 0, 1) === '_') {
+		if(!$id) {
+			global $post;
+			$id = $post->ID;
+		}
+		$tmp = get_post_meta($id, $key, true);
+		return trim($tmp) !== "" ? $tmp : $default;
+	} else if(function_exists("get_field")) {
+		$tmp = get_field($key, $id);
+		return $tmp ? $tmp : $default;
+	}
+	return $default;
+}
+
+function getDatesFromRange($first, $last) {
+	$fromdate = \DateTime::createFromFormat('d/m/Y', $first);
+    $todate = \DateTime::createFromFormat('d/m/Y', $last);
+    $datarr = new \DatePeriod(
+        $fromdate,
+        new \DateInterval('P1D'),
+        $todate->modify('+1 day')
+	);
+	$dates = [];
+	foreach($datarr as $date) {
+		$dates[] = $date->format('d/m/Y');
+	}
+	return $dates;
+}
+
+function simplificyDates($dates) {
+	$simplificy = [];
+	foreach($dates as $date) {
+		if($date["type"] === "single") {
+			if(empty($date["date"])) continue;
+			array_push($simplificy, $date["date"]);
+		} else {
+			$arrdate = getDatesFromRange($date["date_range"]["start"], $date["date_range"]["end"]);
+			if(empty($arrdate)) continue;
+			$simplificy = array_merge($simplificy, $arrdate);
+		}
+	}
+
+	return $simplificy;
+}
+
+function wc_display_item_meta( $item, $args = array() ) {
+    $strings = array();
+    $html    = '';
+    $args    = wp_parse_args( $args, array(
+        'before'    => '<ul class="wc-item-meta"><li>',
+        'after'     => '</li></ul>',
+        'separator' => '</li><li>',
+        'echo'      => true,
+        'autop'     => false,
+    ) );
+    foreach ( $item->get_formatted_meta_data("__") as $meta_id => $meta ) {
+        $value     = $args['autop'] ? wp_kses_post( $meta->display_value ) : wp_kses_post( make_clickable( trim( $meta->display_value ) ) );
+        $strings[] = '<strong class="wc-item-meta-label">' . wp_kses_post( $meta->display_key ) . ':</strong> ' . $value;
+    }
+    if ( $strings ) {
+        $html = $args['before'] . implode( $args['separator'], $strings ) . $args['after'];
+    }
+    $html = apply_filters( 'woocommerce_display_item_meta', $html, $item, $args );
+    if ( $args['echo'] ) {
+        echo $html; // WPCS: XSS ok.
+    } else {
+        return $html;
+    }
+}
+
+function woocommerce_template_loop_add_to_cart( $args = array() ) { 
+    global $product; 
+ 
+    if ( $product ) {
+        $defaults = array( 
+            'quantity' => 1,  
+            'class' => implode( ' ', array_filter( array( 
+                    'button',  
+                    'product_type_' . $product->get_type(),  
+                    $product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button' : '',
+                    //$product->supports( 'ajax_add_to_cart' ) ? 'ajax_add_to_cart' : '',
+            ) ) )
+        );
+ 
+        $args = apply_filters( 'woocommerce_loop_add_to_cart_args', wp_parse_args( $args, $defaults ), $product );
+ 
+        wc_get_template( 'loop/add-to-cart.php', $args ); 
+    } 
+}
+
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.

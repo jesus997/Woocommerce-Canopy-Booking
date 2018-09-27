@@ -59,3 +59,20 @@ function transtops_post_type() {
 add_action( 'init', 'transtops_post_type', 0 );
 
 }
+
+function create_wcb_option_page() {
+    if( function_exists('acf_add_options_page') ) {
+        acf_add_options_page([
+            'page_title'    => 'WC Canopy Booking',
+            'menu_slug'     => 'wc-canopy-booking',
+            'capability'    => 'manage_woocommerce',
+            'parent_slug'   => 'woocommerce',
+            'icon_url'      => 'dashicons-image-filter',
+            'post_id'       => 'wcb-options',
+            'autoload'      => false,
+            'update_button' => __('Update', 'acf'),
+            'updated_message'   => __("Options Updated", 'acf'),
+        ]);
+    }
+}
+add_action( 'init', 'create_wcb_option_page', 0 );
