@@ -196,6 +196,8 @@ class WCB {
 			$this->loader->add_action( 'woocommerce_before_calculate_totals', $woo_ed, 'tours_calculate_totals', 99 );
 			$this->loader->add_filter( 'woocommerce_attribute_label', $woo_ed, 'tours_woocommerce_attribute_label', 10, 3 );
 
+			$woo_acf = new WCB_ACF_Fields();
+			$this->loader->add_action( 'init', $woo_acf, 'load_fields' );
 		}
 
 		$this->loader->add_action('acf/init', $this, 'acf_google_maps_key');

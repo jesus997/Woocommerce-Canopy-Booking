@@ -95,7 +95,7 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 	function wcb_children_price_save_product( $product_id ) {
 
 		// stop the quick edit interferring as this will stop it saving properly, when a user uses quick edit feature
-		if (wp_verify_nonce($_POST['_inline_edit'], 'inlineeditnonce'))
+		if (isset($_POST['_inline_edit']) && wp_verify_nonce($_POST['_inline_edit'], 'inlineeditnonce'))
 		   return;
    
 	   // If this is a auto save do nothing, we only save when update button is clicked
