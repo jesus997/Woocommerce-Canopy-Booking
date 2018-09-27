@@ -130,6 +130,8 @@ class WCB {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcb-post-types.php';
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wcb-acf-fields.php';
+
 		$this->loader = new WCB_Loader();
 
 	}

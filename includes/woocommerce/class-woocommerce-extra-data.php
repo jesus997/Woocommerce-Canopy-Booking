@@ -65,8 +65,8 @@ class WCB_Woocommerce_Extra_Data {
     function tours_calculate_totals( $cart ) {
         if ( ! empty( $cart->cart_contents ) ) {
             foreach ( $cart->cart_contents as $cart_item_key => $cart_item ) {
-                $adults = $cart_item['_tour_adults'];
-                $childs = $cart_item['_tour_children'];
+                $adults = isset($cart_item['_tour_adults']) ? $cart_item['_tour_adults'] : 1;
+                $childs = isset($cart_item['_tour_children']) ? $cart_item['_tour_children'] : 0;
                 $product = $cart_item['data'];
                 $price_adults = $product->get_price();
                 $price_childs = get_post_meta( $product->get_id(), 'price_children', true);
