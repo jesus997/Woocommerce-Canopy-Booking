@@ -13,17 +13,21 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 		
 		include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_canopytour.php');
+		//include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_variable_canopytour.php');
 	}
 
 	public function add_canopytour_product( $types ) {
 		$types[ 'canopytour' ] = __( 'Canopy Tour', $this->wcb );
+		//$types[ 'variable_canopytour' ] = __( 'Variable Canopy Tour', $this->wcb );
 		return $types;
 	}
 
 	public function get_tour_product_class($classname, $product_type) {
 		if ( $product_type === "canopytour" ) {
 			$classname = 'WC_Product_CanopyTour';
-		}
+		} /*else if ( $product_type === "variable_canopytour" ) {
+			$classname = 'WC_Product_Variable_CanopyTour';
+		}*/
 		return $classname;
 	}
 
@@ -38,9 +42,11 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 	
 		?><script type='text/javascript'>
 			jQuery( document ).ready( function() {
-				jQuery( '.options_group.pricing' ).addClass( 'show_if_canopytour show_if_variable_canopytour show_if_simple show_if_external' ).show();
-				jQuery( 'li.general_options.general_tab' ).addClass( 'show_if_canopytour show_if_variable_canopytour show_if_simple show_if_external' ).show();
-				jQuery( '#acf-group_5b9a99cc823ec' ).addClass( 'show_if_canopytour show_if_variable_canopytour' );
+				jQuery( '.options_group.pricing' ).addClass( 'show_if_canopytour show_if_simple show_if_external' ).show();
+				jQuery( 'li.general_options.general_tab' ).addClass( 'show_if_canopytour show_if_simple show_if_external' ).show();
+				//jQuery( '.variations_options.variations_tab' ).addClass( 'show_if_variable_canopytour' ).show();
+				//jQuery( '.enable_variation' ).addClass( 'show_if_variable_canopytour' ).show();
+				jQuery( '#acf-group_5b9a99cc823ec' ).addClass( 'show_if_canopytour show_if_variable_canopytour' ).css("display", "none");
 			});
 		</script><?php
 	}
@@ -61,6 +67,27 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 			</td>
 		</tr>
 	<?php
+	}
+
+	function wcb_add_product_enable_booking_data_to_variation_product_type() {
+		global $post;
+		$product = wc_get_product($post->ID);
+		if($product->is_type("variable")) {
+			woocommerce_wp_checkbox([
+				'id' => 'enable_booking_data',
+				'label' => __( 'Enable Booking Data', $this->wcb ),
+				'class' => 'cwb-enable-booking-data',
+				//'desc_tip' => true,
+				'description' => __( 'Allows you to add fields for the selection of date, timetables and transport stop.', $this->wcb ),
+			]);
+		}
+	}
+
+	function wcb_save_enable_booking_data_field( $post_id ) {
+		$product = wc_get_product( $post_id );
+		$check = isset( $_POST['enable_booking_data'] ) ? $_POST['enable_booking_data'] : '0';
+		$product->update_meta_data( 'enable_booking_data', sanitize_text_field( $check ) );
+		$product->save();
 	}
 
 	function wcb_ajax_woocommerce_save_attributes() {
@@ -89,7 +116,7 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 	 */
 
 	function wcb_children_product_field() {
-		woocommerce_wp_text_input( array( 'id' => 'price_children', 'class' => 'wc_input_price short', 'label' => __( 'Price Children', $this->wcb ) . ' (' . get_woocommerce_currency_symbol() . ')' ) );
+		woocommerce_wp_text_input( array( 'id' => 'second_price', 'class' => 'wc_input_price short', 'label' => __( 'Second Price', $this->wcb ) . ' (' . get_woocommerce_currency_symbol() . ')' ) );
 	}
 
 	function wcb_children_price_save_product( $product_id ) {
@@ -101,10 +128,10 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 	   // If this is a auto save do nothing, we only save when update button is clicked
 	   if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 		   return;
-	   if ( isset( $_POST['price_children'] ) ) {
-		   if ( is_numeric( $_POST['price_children'] ) )
-			   update_post_meta( $product_id, 'price_children', $_POST['price_children'] );
-	   } else delete_post_meta( $product_id, 'price_children' );
+	   if ( isset( $_POST['second_price'] ) ) {
+		   if ( is_numeric( $_POST['second_price'] ) )
+			   update_post_meta( $product_id, 'second_price', $_POST['second_price'] );
+	   } else delete_post_meta( $product_id, 'second_price' );
 	}
 
 	function wcb_canopytour_add_to_cart() {

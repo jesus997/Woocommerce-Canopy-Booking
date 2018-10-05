@@ -7,258 +7,273 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;"
+"_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;"
+"esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.0.1\n"
+"Last-Translator: \n"
+"Language: es_MX\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
 #: ../includes/class-wcb-post-types.php:9
 msgctxt "Post Type General Name"
 msgid "Transportation stops"
-msgstr ""
+msgstr "Paradas de transporte"
 
 #: ../includes/class-wcb-post-types.php:10
 msgctxt "Post Type Singular Name"
 msgid "Transportation stop"
-msgstr ""
+msgstr "Parada de transporte"
 
 #: ../includes/class-wcb-post-types.php:11
 msgid "Transportation stops"
-msgstr ""
+msgstr "Paradas de transporte"
 
-#: ../includes/class-wcb-post-types.php:12, ../includes/class-wcb-post-types.php:38
+#: ../includes/class-wcb-post-types.php:12,
+#: ../includes/class-wcb-post-types.php:38
 msgid "Transportation stop"
-msgstr ""
+msgstr "Parada de transporte"
 
 #: ../includes/class-wcb-post-types.php:13
 msgid "TS Archives"
-msgstr ""
+msgstr "Archivos TS"
 
 #: ../includes/class-wcb-post-types.php:14
 msgid "TS Attributes"
-msgstr ""
+msgstr "Atributos TS"
 
 #: ../includes/class-wcb-post-types.php:15
 msgid "Parent TS:"
-msgstr ""
+msgstr "TS Padre:"
 
 #: ../includes/class-wcb-post-types.php:16
 msgid "All TS"
-msgstr ""
+msgstr "Lista de TS"
 
 #: ../includes/class-wcb-post-types.php:17
 msgid "Add New TS"
-msgstr ""
+msgstr "Añadir Nuevo TS"
 
 #: ../includes/class-wcb-post-types.php:18
 msgid "Add New"
-msgstr ""
+msgstr "Añadir nuevo"
 
 #: ../includes/class-wcb-post-types.php:19
 msgid "New Ts"
-msgstr ""
+msgstr "Nuevo TS"
 
 #: ../includes/class-wcb-post-types.php:20
 msgid "Edit TS"
-msgstr ""
+msgstr "Editar TS"
 
 #: ../includes/class-wcb-post-types.php:21
 msgid "Update TS"
-msgstr ""
+msgstr "Actualizar TS"
 
-#: ../includes/class-wcb-post-types.php:22, ../includes/class-wcb-post-types.php:23
+#: ../includes/class-wcb-post-types.php:22,
+#: ../includes/class-wcb-post-types.php:23
 msgid "View TS"
-msgstr ""
+msgstr "Ver TS"
 
 #: ../includes/class-wcb-post-types.php:24
 msgid "Search TS"
-msgstr ""
+msgstr "Buscar TS"
 
 #: ../includes/class-wcb-post-types.php:25
 msgid "Not found"
-msgstr ""
+msgstr "Sin resultados"
 
 #: ../includes/class-wcb-post-types.php:26
 msgid "Not found in Trash"
-msgstr ""
+msgstr "Sin resultados en la basura"
 
 #: ../includes/class-wcb-post-types.php:27
 msgid "Featured Image"
-msgstr ""
+msgstr "Imagen destacada"
 
 #: ../includes/class-wcb-post-types.php:28
 msgid "Set featured image"
-msgstr ""
+msgstr "Establecer imagen destacada"
 
 #: ../includes/class-wcb-post-types.php:29
 msgid "Remove featured image"
-msgstr ""
+msgstr "Eliminar imagen destacada"
 
 #: ../includes/class-wcb-post-types.php:30
 msgid "Use as featured image"
-msgstr ""
+msgstr "Usar como imagen destacada"
 
 #: ../includes/class-wcb-post-types.php:31
 msgid "Insert into ts"
-msgstr ""
+msgstr "Insertar en TS"
 
 #: ../includes/class-wcb-post-types.php:32
 msgid "Uploaded to this ts"
-msgstr ""
+msgstr "Subir a este TS"
 
 #: ../includes/class-wcb-post-types.php:33
 msgid "TS list"
-msgstr ""
+msgstr "Lista de TS"
 
 #: ../includes/class-wcb-post-types.php:34
 msgid "TS list navigation"
-msgstr ""
+msgstr "Navegación de la lista de TS"
 
 #: ../includes/class-wcb-post-types.php:35
 msgid "Filter ts list"
-msgstr ""
+msgstr "Filtrar lista TS"
 
 #: ../includes/class-wcb-post-types.php:73
 msgid "Update"
-msgstr ""
+msgstr "Actualizar"
 
 #: ../includes/class-wcb-post-types.php:74
 msgid "Options Updated"
-msgstr ""
+msgstr "Opciones Actualizadas"
 
-#: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:31, ../includes/fields/class-wcb-acf-field-tag-input-v4.php:78, ../includes/fields/class-wcb-acf-field-tag-input-v5.php:40
+#: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:31,
+#: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:78,
+#: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:40
 msgid "Tag Field"
-msgstr ""
+msgstr "Campo de etiquetas"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:32
 msgid "Basic"
-msgstr ""
+msgstr "Basic"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:79
 msgid "Create a tag text field"
-msgstr ""
+msgstr "Crea un campo de etiquetas personalizado"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:90
 msgid "Thumbnail"
-msgstr ""
+msgstr "Miniatura"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:91
 msgid "Something Else"
-msgstr ""
+msgstr "Algún otro"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:68
 msgid "Error! Please enter a higher value"
-msgstr ""
+msgstr "Error! Por favor ingrese un valor mayor"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:111
 msgid "Allow Duplicates"
-msgstr ""
-
-#: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:112, ../includes/fields/class-wcb-acf-field-tag-input-v5.php:127, ../includes/fields/class-wcb-acf-field-tag-input-v5.php:134
-msgstr ""
+msgstr "Permitir duplicados"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:119
 msgid "Duplicate Tag Class"
-msgstr ""
+msgstr "Clase para tags duplicados"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:120
 msgid "Customise the input class"
-msgstr ""
+msgstr "Personaliza la clase para el input"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:126
 msgid "Allowed Tags"
-msgstr ""
+msgstr "Tags permitidas"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:133
 msgid "Regular Expression"
-msgstr ""
+msgstr "Expresión regular"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:196
 msgid "Enter the schedules for this tour... (Ej. 9:30)"
-msgstr ""
+msgstr "Ingrese el horario para este tour… (Ej. 9:30)"
 
 #: ../includes/woocommerce/class-woocommerce-custom-product.php:19
 msgid "Canopy Tour"
-msgstr ""
+msgstr "Canopy Tour"
 
 #: ../includes/woocommerce/class-woocommerce-custom-product.php:59
 msgid "Highlight attribute"
-msgstr ""
+msgstr "Atributo destacado"
 
 #: ../includes/woocommerce/class-woocommerce-custom-product.php:92
 msgid "Price Children"
-msgstr ""
+msgstr "Precio para niños"
 
 #: ../includes/woocommerce/class-woocommerce-extra-data.php:12
 msgid "Date of activity"
-msgstr ""
+msgstr "Fecha de la actividad"
 
 #: ../includes/woocommerce/class-woocommerce-extra-data.php:13
 msgid "Activity schedule"
-msgstr ""
+msgstr "Hora de la actividad"
 
-#: ../includes/woocommerce/class-woocommerce-extra-data.php:14, ../woocommerce/single-product/add-to-cart/canopytour.php:83
+#: ../includes/woocommerce/class-woocommerce-extra-data.php:14,
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:83
 msgid "Adults"
-msgstr ""
+msgstr "Adultos"
 
-#: ../includes/woocommerce/class-woocommerce-extra-data.php:15, ../woocommerce/single-product/add-to-cart/canopytour.php:96
+#: ../includes/woocommerce/class-woocommerce-extra-data.php:15,
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:96
 msgid "Children"
-msgstr ""
+msgstr "Niños"
 
-#: ../includes/woocommerce/class-woocommerce-extra-data.php:16, ../woocommerce/single-product/add-to-cart/canopytour.php:110
+#: ../includes/woocommerce/class-woocommerce-extra-data.php:16,
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:110
 msgid "Pick-up place"
-msgstr ""
+msgstr "Parada del transporte"
 
-#: ../includes/woocommerce/class-woocommerce-extra-data.php:17, ../woocommerce/single-product/add-to-cart/canopytour.php:124
+#: ../includes/woocommerce/class-woocommerce-extra-data.php:17,
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:124
 msgid "Transportation schedule"
-msgstr ""
+msgstr "Horario del transporte"
 
 #: ../includes/woocommerce/class-woocommerce-extra-data.php:49
 msgid "$name"
-msgstr ""
-
-#: ../includes/woocommerce/class-woocommerce-extra-data.php:84
-msgstr ""
+msgstr "$name"
 
 #. translators: %s: Quantity.
 #: ../woocommerce/global/quantity-input.php:26
 msgid "%s quantity"
-msgstr ""
+msgstr "%s cantidad"
 
 #: ../woocommerce/global/quantity-input.php:29
 msgid "Quantity"
-msgstr ""
+msgstr "Cantidad"
 
 #: ../woocommerce/global/quantity-input.php:40
 msgctxt "Product quantity input tooltip"
 msgid "Qty"
-msgstr ""
+msgstr "Cnt"
 
 #: ../woocommerce/loop/add-to-cart.php:28
 msgid "Book now"
-msgstr ""
+msgstr "Reservar ahora"
 
 #: ../woocommerce/loop/price.php:27, ../woocommerce/loop/price.php:29
 msgid "From "
-msgstr ""
+msgstr "Desde "
 
 #: ../woocommerce/single-product/add-to-cart/canopytour.php:42
-msgid "Sorry, there are no transportation schedules for the specified activity schedule."
+msgid ""
+"Sorry, there are no transportation schedules for the specified activity "
+"schedule."
 msgstr ""
+"Lo sentimos, no hay horarios disponibles de transporte para el horario "
+"de la actividad elegida."
 
 #: ../woocommerce/single-product/add-to-cart/canopytour.php:58
 msgid "Select a date"
-msgstr ""
+msgstr "Seleccione una fecha"
 
 #: ../woocommerce/single-product/add-to-cart/canopytour.php:67
 msgid "Select a schedule"
-msgstr ""
+msgstr "Seleccione un horario"
 
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:71, ../woocommerce/single-product/add-to-cart/canopytour.php:128
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:71,
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:128
 msgid "Select a value"
-msgstr ""
+msgstr "Seleccione un valor"
 
 #: ../woocommerce/single-product/add-to-cart/canopytour.php:114
 msgid "No"
-msgstr ""
+msgstr "No"

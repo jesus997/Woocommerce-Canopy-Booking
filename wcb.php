@@ -16,7 +16,7 @@
  * Plugin Name:       WooCommerce Canopy Booking
  * Plugin URI:        https://twitter.com/yosoydev
  * Description:       This plugin adds the functionality of a Booking for websites dedicated to the sale of Canopy Tours.
- * Version:           1.0.0
+ * Version:           1.8.3
  * Author:            Jes&uacute;s Magall&oacute;n
  * Author URI:        https://twitter.com/yosoydev
  * License:           GPL-2.0+
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WCB_VERSION', '1.0.0' );
+define( 'WCB_VERSION', '1.8.3' );
 
 /**
  * The code that runs during plugin activation.
@@ -66,7 +66,10 @@ function get_attribute_highlighted($id, $i) {
 	global $post;
 	$id = sanitize_title($id);
 	$id = strtolower($id);
-	$val = get_post_meta( $post->ID, "attribute_".$id."_highlighted_".$i, true);
+	$val = "";
+	if(!empty($post->ID)) {
+		$val = get_post_meta( $post->ID, "attribute_".$id."_highlighted_".$i, true);
+	}
 	return !empty($val) ? $val : false;
 }
 
@@ -120,6 +123,8 @@ function simplificyDates($dates) {
 	return $simplificy;
 }
 
+if( ! function_exists('wc_display_item_meta') ) {
+
 function wc_display_item_meta( $item, $args = array() ) {
     $strings = array();
     $html    = '';
@@ -145,6 +150,10 @@ function wc_display_item_meta( $item, $args = array() ) {
     }
 }
 
+}
+
+if( ! function_exists('woocommerce_template_loop_add_to_cart') ) {
+
 function woocommerce_template_loop_add_to_cart( $args = array() ) { 
     global $product; 
  
@@ -163,6 +172,8 @@ function woocommerce_template_loop_add_to_cart( $args = array() ) {
  
         wc_get_template( 'loop/add-to-cart.php', $args ); 
     } 
+}
+
 }
 
 /**

@@ -22,9 +22,9 @@ global $product;
 ?>
 
 <?php if ( $price_html = $product->get_price_html() ) :
-	$children_price = value("price_children", 0, $product->get_id());
-	if($product->is_type( 'canopytour' ) && $children_price > 0) : ?>
-		<span class="price"><?= __("From ", "wcb")." ".wc_price($children_price); ?></span> <?php
+	$second_price = value("second_price", 0, $product->get_id());
+	if($product->is_type( 'canopytour' ) && $second_price > 0) : ?>
+		<span class="price"><?= __("From ", "wcb")." ".wc_price($second_price); ?></span> <?php
 	else: ?>
 		<span class="price"><?= __("From ", "wcb")." ".$price_html; ?></span> <?php
 	endif; ?>

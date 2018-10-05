@@ -65,17 +65,19 @@ class WCB_Woocommerce_Extra_Data {
     function tours_calculate_totals( $cart ) {
         if ( ! empty( $cart->cart_contents ) ) {
             foreach ( $cart->cart_contents as $cart_item_key => $cart_item ) {
-                $adults = isset($cart_item['_tour_adults']) ? $cart_item['_tour_adults'] : 1;
-                $childs = isset($cart_item['_tour_children']) ? $cart_item['_tour_children'] : 0;
                 $product = $cart_item['data'];
-                $price_adults = $product->get_price();
-                $price_childs = get_post_meta( $product->get_id(), 'price_children', true);
-                $price_childs = empty($price_childs) ? 0 : $price_childs;
-                $new_price = ($price_adults * $adults) + ($price_childs * $childs);
-                $cart_item['data']->set_price( $new_price );
-                remove_action( 'woocommerce_before_calculate_totals', array($this, 'tours_calculate_totals'), 99 );
+                if($product->is_type( 'canopytour' )) {
+                    $adults = isset($cart_item['_tour_adults']) ? $cart_item['_tour_adults'] : 1;
+                    $childs = isset($cart_item['_tour_children']) ? $cart_item['_tour_children'] : 0;
+                    $regular_price = $product->get_price();
+                    $second_price = get_post_meta( $product->get_id(), 'second_price', true);
+                    $second_price = empty($second_price) ? 0 : $second_price;
+                    $new_price = ($regular_price * $adults) + ($second_price * $childs);
+                    $cart_item['data']->set_price( $new_price );
+                    remove_action( 'woocommerce_before_calculate_totals', array($this, 'tours_calculate_totals'), 99 );
+                }
             }
-            //debug($cart->cart_contents, true);
+            //echo "<pre>"; print_r($cart->cart_contents); echo "</pre>";die();
         }
     }
 
@@ -84,5 +86,20 @@ class WCB_Woocommerce_Extra_Data {
             $label = __($this->attrs[$label], $this->wcb);
         }
         return $label;
+    }
+
+    function wcb_currency_symbol( $format, $currency_pos ) {
+        $currency = get_woocommerce_currency();
+        switch ( $currency_pos ) {
+            case 'left' :
+                $format = '%1$s%2$s&nbsp;'.$currency;
+                break;
+            case 'right':
+                $format = $currency.'%1$s%2$s&nbsp;';
+                break;
+            default:
+                $format = '%1$s%2$s&nbsp;';
+        }
+        return $format;
     }
 }

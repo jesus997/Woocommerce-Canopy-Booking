@@ -186,6 +186,9 @@ class WCB {
 			$this->loader->add_action( 'woocommerce_product_options_pricing', $woo_ct, 'wcb_children_product_field' );
 			$this->loader->add_action( 'save_post', $woo_ct, 'wcb_children_price_save_product' );
 
+			$this->loader->add_action( 'woocommerce_product_options_advanced', $woo_ct, 'wcb_add_product_enable_booking_data_to_variation_product_type' );
+			$this->loader->add_action( 'woocommerce_process_product_meta', $woo_ct, 'wcb_save_enable_booking_data_field' );
+
 			$this->loader->add_action( 'woocommerce_canopytour_add_to_cart', $woo_ct, 'wcb_canopytour_add_to_cart', 30);
 			$this->loader->add_filter( 'woocommerce_locate_template', $woo_ct, 'wcb_woocommerce_locate_template', 10, 3 );
 
@@ -195,6 +198,8 @@ class WCB {
 			$this->loader->add_action( 'woocommerce_checkout_create_order_line_item', $woo_ed, 'tours_add_custom_order_line_item_meta', 10, 4);
 			$this->loader->add_action( 'woocommerce_before_calculate_totals', $woo_ed, 'tours_calculate_totals', 99 );
 			$this->loader->add_filter( 'woocommerce_attribute_label', $woo_ed, 'tours_woocommerce_attribute_label', 10, 3 );
+
+			$this->loader->add_action('woocommerce_price_format', $woo_ed, 'wcb_currency_symbol', 1, 2);
 
 			$woo_acf = new WCB_ACF_Fields();
 			$this->loader->add_action( 'init', $woo_acf, 'load_fields' );

@@ -24,7 +24,7 @@ echo wc_get_stock_html( $product ); // WPCS: XSS ok.
 $schedule = value("schedule", false, $product->get_id());
 $max_adults = value("maximum_number_of_adults", 100, $product->get_id());
 $max_children = value("maximum_number_of_children", 100, $product->get_id());
-$children_price = value("price_children", false, $product->get_id());
+$second_price = value("second_price", false, $product->get_id());
 $transportations = value("transportation_stops", [], $product->get_id());
 
 $blocked_days = value("blocked_days", [], "wcb-options");
@@ -58,7 +58,7 @@ if ( $product->is_in_stock() ) : ?>
                         <label for="_tour_date"><?= __("Select a date", "wcb") ?></label>
                     </td>
 					<td class="value">
-                        <input type="text" name="_tour_date" id="_tour_date" data-attribute_name="attribute_tour_date" placeholder="dd/mm/yyyy" required style="margin-bottom: 0;" />
+                        <input type="text" name="_tour_date" id="_tour_date" data-attribute_name="attribute_tour_date" placeholder="dd/mm/yyyy" required autocomplete="off" style="margin-bottom: 0;" />
                     </td>
                 </tr> <?php
                 if($schedule) { ?>
@@ -93,7 +93,7 @@ if ( $product->is_in_stock() ) : ?>
                 </tr>
                 <tr>
 					<td class="label">
-                        <label for="_tour_children"><?= __("Children", "wcb") ?> (<?= wc_price($children_price) ?>)</label>
+                        <label for="_tour_children"><?= __("Children", "wcb") ?> (<?= wc_price($second_price) ?>)</label>
                     </td>
 					<td class="value"> <?php
                         woocommerce_quantity_input( array(
