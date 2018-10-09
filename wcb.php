@@ -176,6 +176,11 @@ function woocommerce_template_loop_add_to_cart( $args = array() ) {
 
 }
 
+function request($id, $default=false, $method="post") {
+	$requests = ($method === "get") ? $_GET : ($method === "request") ? $_REQUEST : $_POST;
+	return isset($requests[$id]) ? $requests[$id] : $default;
+}
+
 /**
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.

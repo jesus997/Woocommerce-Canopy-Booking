@@ -14,7 +14,7 @@ class WCB_Woocommerce_Extra_Data {
             "_tour_adults"      => __("Adults", $this->wcb),
             "_tour_children"      => __("Children", $this->wcb),
             "_need_transportation"  => __("Pick-up place", $this->wcb),
-            "_transportation_schedules" => __("Transportation schedule", $this->wcb)
+            "_transportation_schedules" => __("Pick-up schedule", $this->wcb)
         ];
     }
     

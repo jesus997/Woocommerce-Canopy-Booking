@@ -24,6 +24,8 @@ $transportations = value("transportation_stops", [], $product->get_id());
 $blocked_days = value("blocked_days", [], "wcb-options");
 $dates_blocked = value("dates_blocked", [], "wcb-options");
 
+$enable_booking_data = value("enable_booking_data", false, $product->get_id());
+
 $transportation_json = [];
 
 foreach($transportations as $stop) {
@@ -37,6 +39,8 @@ $trans_i18n = [
 
 ];
 
+$ddate = request("_tour_date", "");
+
 do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 
 <form class="variations_form cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data' data-product_id="<?php echo absint( $product->get_id() ); ?>" data-product_variations="<?php echo htmlspecialchars( wp_json_encode( $available_variations ) ); // WPCS: XSS ok. ?>">
@@ -45,6 +49,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 	<?php if ( empty( $available_variations ) && false !== $available_variations ) : ?>
 		<p class="stock out-of-stock"><?php esc_html_e( 'This product is currently out of stock and unavailable.', 'woocommerce' ); ?></p>
 	<?php else : ?>
+	<?php if ($enable_booking_data) : ?>
 		<table class="canopytour-inputs" cellspacing="0">
             <tbody>
                 <tr>
@@ -52,7 +57,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
                         <label for="_tour_date"><?= __("Select a date", "wcb") ?></label>
                     </td>
 					<td class="value">
-                        <input type="text" name="_tour_date" id="_tour_date" data-attribute_name="attribute_tour_date" placeholder="dd/mm/yyyy" required autocomplete="off" style="margin-bottom: 0;" />
+                        <input type="text" name="_tour_date" id="_tour_date" data-attribute_name="attribute_tour_date" placeholder="dd/mm/yyyy" required value="<?= $ddate ?>" autocomplete="off" style="margin-bottom: 0;" />
                     </td>
                 </tr> <?php
                 if($schedule) { ?>
@@ -89,7 +94,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
                     </tr>
                     <tr data-show-if="_need_transportation" data-is="No">
                         <td class="label">
-                            <label for="_transportation_schedules"><?= __("Transportation schedule", "wcb") ?></label>
+                            <label for="_transportation_schedules"><?= __("Pick-up schedule", "wcb") ?></label>
                         </td>
                         <td class="value">
                             <select name="_transportation_schedules" id="_transportation_schedules" data-attribute_name="attribute_transportation_schedules" required>
@@ -108,7 +113,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
                 } ?>
             </tbody>
         </table>
-
+	<?php endif; ?>
 		<table class="variations" cellspacing="0">
 			<tbody>
 				<?php foreach ( $attributes as $attribute_name => $options ) : ?>
@@ -153,7 +158,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 
 	<?php do_action( 'woocommerce_after_variations_form' ); ?>
 </form>
-
+<?php if ($enable_booking_data) : ?>
 <script>
 	var TRANSJSON = <?= json_encode($transportation_json) ?>;
 	var TRANSI18N = <?= json_encode($trans_i18n) ?>;
@@ -234,6 +239,6 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 		});
 	})(jQuery);
 </script>
-
+<?php endif; ?>
 <?php
 do_action( 'woocommerce_after_add_to_cart_form' );

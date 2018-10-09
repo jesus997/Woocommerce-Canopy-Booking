@@ -43,6 +43,10 @@ $trans_i18n = [
 
 ];
 
+$ddate = request("_tour_date", "");
+$dadults = request("_tour_adults", 1);
+$dchildren = request("_tour_children", 0);
+
 if ( $product->is_in_stock() ) : ?>
 
 	<?php do_action( 'woocommerce_before_add_to_cart_form' ); ?>
@@ -58,7 +62,7 @@ if ( $product->is_in_stock() ) : ?>
                         <label for="_tour_date"><?= __("Select a date", "wcb") ?></label>
                     </td>
 					<td class="value">
-                        <input type="text" name="_tour_date" id="_tour_date" data-attribute_name="attribute_tour_date" placeholder="dd/mm/yyyy" required autocomplete="off" style="margin-bottom: 0;" />
+                        <input type="text" name="_tour_date" id="_tour_date" data-attribute_name="attribute_tour_date" placeholder="dd/mm/yyyy" required value="<?= $ddate ?>" autocomplete="off" style="margin-bottom: 0;" />
                     </td>
                 </tr> <?php
                 if($schedule) { ?>
@@ -87,23 +91,25 @@ if ( $product->is_in_stock() ) : ?>
                             'input_name'    => '_tour_adults',
                             'min_value'     => 1,
                             'max_value'     => $max_adults,
-                            'input_value'   => 1, // WPCS: CSRF ok, input var ok.
-                        ) ); ?>
-                    </td>
-                </tr>
-                <tr>
-					<td class="label">
-                        <label for="_tour_children"><?= __("Children", "wcb") ?> (<?= wc_price($second_price) ?>)</label>
-                    </td>
-					<td class="value"> <?php
-                        woocommerce_quantity_input( array(
-                            'input_name'    => '_tour_children',
-                            'min_value'     => 0,
-                            'max_value'     => $max_children,
-                            'input_value'   => 1, // WPCS: CSRF ok, input var ok.
+                            'input_value'   => $dadults, // WPCS: CSRF ok, input var ok.
                         ) ); ?>
                     </td>
                 </tr> <?php
+                if(!empty($second_price)) { ?>
+                    <tr>
+                        <td class="label">
+                            <label for="_tour_children"><?= __("Children", "wcb") ?> (<?= wc_price($second_price) ?>)</label>
+                        </td>
+                        <td class="value"> <?php
+                            woocommerce_quantity_input( array(
+                                'input_name'    => '_tour_children',
+                                'min_value'     => 0,
+                                'max_value'     => $max_children,
+                                'input_value'   => $dchildren, // WPCS: CSRF ok, input var ok.
+                            ) ); ?>
+                        </td>
+                    </tr> <?php
+                }
                 if(count($transportations) > 0) { ?>
                     <tr>
                         <td class="label">
@@ -121,7 +127,7 @@ if ( $product->is_in_stock() ) : ?>
                     </tr>
                     <tr data-show-if="_need_transportation" data-is="No">
                         <td class="label">
-                            <label for="_transportation_schedules"><?= __("Transportation schedule", "wcb") ?></label>
+                            <label for="_transportation_schedules"><?= __("Pick-up schedule", "wcb") ?></label>
                         </td>
                         <td class="value">
                             <select name="_transportation_schedules" id="_transportation_schedules" data-attribute_name="attribute_transportation_schedules" required>
