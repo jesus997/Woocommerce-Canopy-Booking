@@ -17,6 +17,18 @@
 defined( 'ABSPATH' ) || exit;
 global $product;
 
+if(empty($attributes)) {
+	$attributes = [];
+	foreach($product->get_attributes() as $attr_name => $attr) {
+		if(!$attr->get_variation()) continue;
+		$attributes[$attr->get_name()] = $attr->get_options();
+	}
+}
+
+if(empty($available_variations)) {
+	$available_variations = $product->get_available_variations();
+}
+
 $attribute_keys = array_keys( $attributes );
 
 $schedule = value("schedule", false, $product->get_id());
@@ -50,71 +62,69 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 	<?php if ( empty( $available_variations ) && false !== $available_variations ) : ?>
 		<p class="stock out-of-stock"><?php esc_html_e( 'This product is currently out of stock and unavailable.', 'woocommerce' ); ?></p>
 	<?php else : ?>
-	<?php if ($enable_booking_data) : ?>
-		<table class="canopytour-inputs" cellspacing="0">
-            <tbody>
-                <tr>
+	<table class="canopytour-inputs" cellspacing="0">
+		<tbody>
+			<tr>
+				<td class="label">
+					<label for="_tour_date"><?= __("Select a date", "wcb") ?></label>
+				</td>
+				<td class="value">
+					<input type="text" name="_tour_date" id="_tour_date" data-attribute_name="attribute_tour_date" placeholder="dd/mm/yyyy" required value="<?= $ddate ?>" onfocus="blur();" autocomplete="off" style="margin-bottom: 0;" />
+				</td>
+			</tr> <?php
+			if($schedule) { ?>
+				<tr>
 					<td class="label">
-                        <label for="_tour_date"><?= __("Select a date", "wcb") ?></label>
-                    </td>
+						<label for="_tour_schedule"><?= __("Select a schedule", "wcb") ?></label>
+					</td>
 					<td class="value">
-                        <input type="text" name="_tour_date" id="_tour_date" data-attribute_name="attribute_tour_date" placeholder="dd/mm/yyyy" required value="<?= $ddate ?>" onfocus="blur();" autocomplete="off" style="margin-bottom: 0;" />
-                    </td>
-                </tr> <?php
-                if($schedule) { ?>
-                    <tr>
-                        <td class="label">
-                            <label for="_tour_schedule"><?= __("Select a schedule", "wcb") ?></label>
-                        </td>
-                        <td class="value">
-                            <select name="_tour_schedule" id="_tour_schedule" data-attribute_name="attribute_tour_schedule" required>
-                                <option value="" disabled><?= __( 'Select a value', 'wcb'); ?></option> <?php
-                                $schedule = explode(",", $schedule);
-                                natsort($schedule);
-                                foreach($schedule as $time) { ?>
-                                    <option value="<?= trim($time) ?>"><?= $time ?></option> <?php
-                                } ?>
-                            </select>
-                        </td>
-                    </tr> <?php
-                }
-                if(count($transportations) > 0) { ?>
-                    <tr>
-                        <td class="label">
-                            <label for="_need_transportation"><?= __("Pick-up place", "wcb") ?></label>
-                        </td>
-                        <td class="value">
-                            <select name="_need_transportation" id="_need_transportation" data-attribute_name="attribute_need_transportation" required>
-                                <option value="No"><?= __( 'No', 'wcb'); ?></option><?php
-                                foreach ($transportations as $transportation) {
-                                    $stop = get_the_title($transportation); ?>
-                                    <option value="<?= trim($stop) ?>"><?= $stop ?></option> <?php
-                                } ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr data-show-if="_need_transportation" data-is="No">
-                        <td class="label">
-                            <label for="_transportation_schedules"><?= __("Pick-up schedule", "wcb") ?></label>
-                        </td>
-                        <td class="value">
-                            <select name="_transportation_schedules" id="_transportation_schedules" data-attribute_name="attribute_transportation_schedules" required>
-                                <option value="" disabled><?= __( 'Select a value', 'wcb'); ?></option><?php
-                                $schedules = value("schedule", "", $transportation[0]);
-                                $schedules = explode(",", $schedules);
-                                if(is_array($schedules) && !empty($schedules)) {
-                                    foreach($schedules as $schedule) { ?>
-                                        <option value="<?= trim($schedule) ?>"><?= $schedule ?></option> <?php
-                                    }
-                                } ?>
-                            </select>
-                            <p class="_transportation_schedules_message"></p>
-                        </td>
-                    </tr> <?php
-                } ?>
-            </tbody>
-        </table>
-	<?php endif; ?>
+						<select name="_tour_schedule" id="_tour_schedule" data-attribute_name="attribute_tour_schedule" required>
+							<option value="" disabled><?= __( 'Select a value', 'wcb'); ?></option> <?php
+							$schedule = explode(",", $schedule);
+							natsort($schedule);
+							foreach($schedule as $time) { ?>
+								<option value="<?= trim($time) ?>"><?= $time ?></option> <?php
+							} ?>
+						</select>
+					</td>
+				</tr> <?php
+			}
+			if(count($transportations) > 0) { ?>
+				<tr>
+					<td class="label">
+						<label for="_need_transportation"><?= __("Pick-up place", "wcb") ?></label>
+					</td>
+					<td class="value">
+						<select name="_need_transportation" id="_need_transportation" data-attribute_name="attribute_need_transportation" required>
+							<option value="No"><?= __( 'No', 'wcb'); ?></option><?php
+							foreach ($transportations as $transportation) {
+								$stop = get_the_title($transportation); ?>
+								<option value="<?= trim($stop) ?>"><?= $stop ?></option> <?php
+							} ?>
+						</select>
+					</td>
+				</tr>
+				<tr data-show-if="_need_transportation" data-is="No">
+					<td class="label">
+						<label for="_transportation_schedules"><?= __("Pick-up schedule", "wcb") ?></label>
+					</td>
+					<td class="value">
+						<select name="_transportation_schedules" id="_transportation_schedules" data-attribute_name="attribute_transportation_schedules" required>
+							<option value="" disabled><?= __( 'Select a value', 'wcb'); ?></option><?php
+							$schedules = value("schedule", "", $transportation[0]);
+							$schedules = explode(",", $schedules);
+							if(is_array($schedules) && !empty($schedules)) {
+								foreach($schedules as $schedule) { ?>
+									<option value="<?= trim($schedule) ?>"><?= $schedule ?></option> <?php
+								}
+							} ?>
+						</select>
+						<p class="_transportation_schedules_message"></p>
+					</td>
+				</tr> <?php
+			} ?>
+		</tbody>
+	</table>
 		<table class="variations" cellspacing="0">
 			<tbody>
 				<?php foreach ( $attributes as $attribute_name => $options ) : ?>

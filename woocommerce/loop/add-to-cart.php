@@ -19,12 +19,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 global $product;
+$enable_booking_data = value("enable_booking_data", false, $product->get_id());
+$button_text = $product->add_to_cart_text();
+if($enable_booking_data || $product->is_type( 'canopytour' ) || $product->is_type( 'variable_canopytour' )) {
+	$button_text = __("Book now", "wcb");
+}
+$button_link = $product->add_to_cart_url();
+if($enable_booking_data || $product->is_type( 'canopytour' ) || $product->is_type( 'variable_canopytour' )) {
+	$button_link = get_permalink( $product->get_id() );
+}
 echo apply_filters( 'woocommerce_loop_add_to_cart_link', // WPCS: XSS ok.
 	sprintf( '<a href="%s" data-quantity="%s" class="%s" %s>%s</a>',
-		esc_url( $product->is_type( 'canopytour' ) ? get_permalink( $product->get_id() ) : $product->add_to_cart_url() ),
+		esc_url( $button_link ),
 		esc_attr( isset( $args['quantity'] ) ? $args['quantity'] : 1 ),
 		esc_attr( isset( $args['class'] ) ? $args['class'] : 'button' ),
 		isset( $args['attributes'] ) ? wc_implode_html_attributes( $args['attributes'] ) : '',
-		esc_html( $product->is_type( 'canopytour' ) ? __("Book now", "wcb") : $product->add_to_cart_text() )
+		esc_html( $button_text )
 	),
 $product, $args );

@@ -16,7 +16,7 @@
  * Plugin Name:       WooCommerce Canopy Booking
  * Plugin URI:        https://twitter.com/yosoydev
  * Description:       This plugin adds the functionality of a Booking for websites dedicated to the sale of Canopy Tours.
- * Version:           1.8.3
+ * Version:           1.9.0
  * Author:            Jes&uacute;s Magall&oacute;n
  * Author URI:        https://twitter.com/yosoydev
  * License:           GPL-2.0+
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'WCB_VERSION', '1.8.3' );
+define( 'WCB_VERSION', '1.9.0' );
 
 /**
  * The code that runs during plugin activation.
@@ -75,6 +75,10 @@ function get_attribute_highlighted($id, $i) {
 
 function woocommerce_canopytour_add_to_cart() {
 	wc_get_template( "single-product/add-to-cart/canopytour.php" );
+}
+
+function woocommerce_variable_canopytour_add_to_cart() {
+	wc_get_template( "single-product/add-to-cart/variable-canopytour.php" );
 }
 
 function value($key, $default=false, $id=false) {

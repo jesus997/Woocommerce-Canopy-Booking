@@ -62,7 +62,7 @@ if ( $product->is_in_stock() ) : ?>
                         <label for="_tour_date"><?= __("Select a date", "wcb") ?></label>
                     </td>
 					<td class="value">
-                        <input type="text" name="_tour_date" id="_tour_date" data-attribute_name="attribute_tour_date" placeholder="dd/mm/yyyy" required value="<?= $ddate ?>" autocomplete="off" style="margin-bottom: 0;" />
+                        <input type="text" name="_tour_date" id="_tour_date" data-attribute_name="attribute_tour_date" placeholder="dd/mm/yyyy" required value="<?= $ddate ?>" autocomplete="off" onfocus="blur();" style="margin-bottom: 0;" />
                     </td>
                 </tr> <?php
                 if($schedule) { ?>

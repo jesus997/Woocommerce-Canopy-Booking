@@ -13,21 +13,21 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 		
 		include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_canopytour.php');
-		//include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_variable_canopytour.php');
+		include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_variable_canopytour.php');
 	}
 
 	public function add_canopytour_product( $types ) {
 		$types[ 'canopytour' ] = __( 'Canopy Tour', $this->wcb );
-		//$types[ 'variable_canopytour' ] = __( 'Variable Canopy Tour', $this->wcb );
+		$types[ 'variable_canopytour' ] = __( 'Variable Canopy Tour', $this->wcb );
 		return $types;
 	}
 
 	public function get_tour_product_class($classname, $product_type) {
 		if ( $product_type === "canopytour" ) {
 			$classname = 'WC_Product_CanopyTour';
-		} /*else if ( $product_type === "variable_canopytour" ) {
+		} else if ( $product_type === "variable_canopytour" ) {
 			$classname = 'WC_Product_Variable_CanopyTour';
-		}*/
+		}
 		return $classname;
 	}
 
@@ -44,8 +44,8 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 			jQuery( document ).ready( function() {
 				jQuery( '.options_group.pricing' ).addClass( 'show_if_canopytour show_if_simple show_if_external' ).show();
 				jQuery( 'li.general_options.general_tab' ).addClass( 'show_if_canopytour show_if_simple show_if_external' ).show();
-				//jQuery( '.variations_options.variations_tab' ).addClass( 'show_if_variable_canopytour' ).show();
-				//jQuery( '.enable_variation' ).addClass( 'show_if_variable_canopytour' ).show();
+				jQuery( '.variations_options.variations_tab' ).addClass( 'show_if_variable_canopytour' ).show();
+				jQuery( '.enable_variation' ).addClass( 'show_if_variable_canopytour' ).show();
 				jQuery( '#acf-group_5b9a99cc823ec' ).addClass( 'show_if_canopytour show_if_variable_canopytour' ).css("display", "none");
 			});
 		</script><?php
@@ -138,6 +138,14 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 		woocommerce_canopytour_add_to_cart();
 	}
 
+	function wcb_variable_canopytour_add_to_cart() {
+		woocommerce_variable_canopytour_add_to_cart();
+	}
+
+	function wcb_variable_canopytour_add_to_cart_button() {
+		wc_get_template( 'single-product/add-to-cart/variable-add-to-cart-button.php' );
+	}
+
 	function wcb_woocommerce_locate_template( $template, $template_name, $template_path ) {
 		global $woocommerce;
 		$_template = $template;
@@ -158,5 +166,10 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 		  $template = $_template;
 	  
 		return $template;
+	}
+
+	function wcb_add_woocommerce_data_store ($stores){
+		$stores['product-variable_canopytour'] = 'WC_Product_Variable_Data_Store_CPT';
+		return $stores;
 	}
 }

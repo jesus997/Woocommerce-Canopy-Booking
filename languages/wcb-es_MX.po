@@ -8,8 +8,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;"
-"_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;"
-"esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;"
+"esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "POT-Creation-Date: \n"
@@ -54,11 +54,11 @@ msgstr "TS Padre:"
 
 #: ../includes/class-wcb-post-types.php:16
 msgid "All TS"
-msgstr "Lista de TS"
+msgstr "Todos los TS"
 
 #: ../includes/class-wcb-post-types.php:17
 msgid "Add New TS"
-msgstr "Añadir Nuevo TS"
+msgstr "Añadir nuevo TS"
 
 #: ../includes/class-wcb-post-types.php:18
 msgid "Add New"
@@ -91,7 +91,7 @@ msgstr "Sin resultados"
 
 #: ../includes/class-wcb-post-types.php:26
 msgid "Not found in Trash"
-msgstr "Sin resultados en la basura"
+msgstr "Sin resultados en la Basura"
 
 #: ../includes/class-wcb-post-types.php:27
 msgid "Featured Image"
@@ -115,15 +115,15 @@ msgstr "Insertar en TS"
 
 #: ../includes/class-wcb-post-types.php:32
 msgid "Uploaded to this ts"
-msgstr "Subir a este TS"
+msgstr "Subido a este TS"
 
 #: ../includes/class-wcb-post-types.php:33
 msgid "TS list"
-msgstr "Lista de TS"
+msgstr "Lista TS"
 
 #: ../includes/class-wcb-post-types.php:34
 msgid "TS list navigation"
-msgstr "Navegación de la lista de TS"
+msgstr "Navegación TS"
 
 #: ../includes/class-wcb-post-types.php:35
 msgid "Filter ts list"
@@ -135,13 +135,13 @@ msgstr "Actualizar"
 
 #: ../includes/class-wcb-post-types.php:74
 msgid "Options Updated"
-msgstr "Opciones Actualizadas"
+msgstr "Opciones actualizadas"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:31,
 #: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:78,
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:40
 msgid "Tag Field"
-msgstr "Campo de etiquetas"
+msgstr "Tag Field"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:32
 msgid "Basic"
@@ -149,7 +149,7 @@ msgstr "Basic"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:79
 msgid "Create a tag text field"
-msgstr "Crea un campo de etiquetas personalizado"
+msgstr "Crea un campo personalizado para etiquetas"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v4.php:90
 msgid "Thumbnail"
@@ -169,7 +169,7 @@ msgstr "Permitir duplicados"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:119
 msgid "Duplicate Tag Class"
-msgstr "Clase para tags duplicados"
+msgstr "Clase para las etiquetas duplicadas"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:120
 msgid "Customise the input class"
@@ -177,7 +177,7 @@ msgstr "Personaliza la clase para el input"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:126
 msgid "Allowed Tags"
-msgstr "Tags permitidas"
+msgstr "Etiquetas permitidas"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:133
 msgid "Regular Expression"
@@ -185,19 +185,35 @@ msgstr "Expresión regular"
 
 #: ../includes/fields/class-wcb-acf-field-tag-input-v5.php:196
 msgid "Enter the schedules for this tour... (Ej. 9:30)"
-msgstr "Ingrese el horario para este tour… (Ej. 9:30)"
+msgstr "Ingrese el horario para este tour… (Ej. 09:30)"
 
-#: ../includes/woocommerce/class-woocommerce-custom-product.php:19
+#: ../includes/woocommerce/class-woocommerce-custom-product.php:20
 msgid "Canopy Tour"
 msgstr "Canopy Tour"
 
-#: ../includes/woocommerce/class-woocommerce-custom-product.php:59
+#: ../includes/woocommerce/class-woocommerce-custom-product.php:21
+msgid "Variable Canopy Tour"
+msgstr "Canopy Tour Variable"
+
+#: ../includes/woocommerce/class-woocommerce-custom-product.php:65
 msgid "Highlight attribute"
 msgstr "Atributo destacado"
 
-#: ../includes/woocommerce/class-woocommerce-custom-product.php:92
-msgid "Price Children"
-msgstr "Precio para niños"
+#: ../includes/woocommerce/class-woocommerce-custom-product.php:78
+msgid "Enable Booking Data"
+msgstr "Habiliar Datos de Booking"
+
+#: ../includes/woocommerce/class-woocommerce-custom-product.php:81
+msgid ""
+"Allows you to add fields for the selection of date, timetables and transport "
+"stop."
+msgstr ""
+"Permite añadir campos para la selección de fecha, horarios y paradas de "
+"transporte."
+
+#: ../includes/woocommerce/class-woocommerce-custom-product.php:119
+msgid "Second Price"
+msgstr "Precio secundario"
 
 #: ../includes/woocommerce/class-woocommerce-extra-data.php:12
 msgid "Date of activity"
@@ -205,27 +221,31 @@ msgstr "Fecha de la actividad"
 
 #: ../includes/woocommerce/class-woocommerce-extra-data.php:13
 msgid "Activity schedule"
-msgstr "Hora de la actividad"
+msgstr "Horario de la actividad"
 
 #: ../includes/woocommerce/class-woocommerce-extra-data.php:14,
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:83
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:87
 msgid "Adults"
 msgstr "Adultos"
 
 #: ../includes/woocommerce/class-woocommerce-extra-data.php:15,
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:96
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:101
 msgid "Children"
 msgstr "Niños"
 
 #: ../includes/woocommerce/class-woocommerce-extra-data.php:16,
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:110
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:116,
+#: ../woocommerce/single-product/add-to-cart/variable-canopytour.php:95,
+#: ../woocommerce/single-product/add-to-cart/variable.php:84
 msgid "Pick-up place"
-msgstr "Parada del transporte"
+msgstr "Punto de salida del transporte"
 
 #: ../includes/woocommerce/class-woocommerce-extra-data.php:17,
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:124
-msgid "Transportation schedule"
-msgstr "Horario del transporte"
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:130,
+#: ../woocommerce/single-product/add-to-cart/variable-canopytour.php:109,
+#: ../woocommerce/single-product/add-to-cart/variable.php:98
+msgid "Pick-up schedule"
+msgstr "Hora de salida"
 
 #: ../includes/woocommerce/class-woocommerce-extra-data.php:49
 msgid "$name"
@@ -245,35 +265,52 @@ msgctxt "Product quantity input tooltip"
 msgid "Qty"
 msgstr "Cnt"
 
-#: ../woocommerce/loop/add-to-cart.php:28
+#: ../woocommerce/loop/add-to-cart.php:25
 msgid "Book now"
-msgstr "Reservar ahora"
+msgstr "Reserva ahora"
 
 #: ../woocommerce/loop/price.php:27, ../woocommerce/loop/price.php:29
 msgid "From "
-msgstr "Desde "
+msgstr "Desde"
 
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:42
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:42,
+#: ../woocommerce/single-product/add-to-cart/variable-canopytour.php:51,
+#: ../woocommerce/single-product/add-to-cart/variable.php:39
 msgid ""
 "Sorry, there are no transportation schedules for the specified activity "
 "schedule."
 msgstr ""
-"Lo sentimos, no hay horarios disponibles de transporte para el horario "
-"de la actividad elegida."
+"Lo sentimos, no hay horarios disponibles de transporte para el horario de la "
+"actividad elegida."
 
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:58
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:62,
+#: ../woocommerce/single-product/add-to-cart/variable-canopytour.php:69,
+#: ../woocommerce/single-product/add-to-cart/variable.php:58
 msgid "Select a date"
 msgstr "Seleccione una fecha"
 
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:67
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:71,
+#: ../woocommerce/single-product/add-to-cart/variable-canopytour.php:78,
+#: ../woocommerce/single-product/add-to-cart/variable.php:67
 msgid "Select a schedule"
 msgstr "Seleccione un horario"
 
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:71,
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:128
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:75,
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:134,
+#: ../woocommerce/single-product/add-to-cart/variable-canopytour.php:82,
+#: ../woocommerce/single-product/add-to-cart/variable-canopytour.php:113,
+#: ../woocommerce/single-product/add-to-cart/variable.php:71,
+#: ../woocommerce/single-product/add-to-cart/variable.php:102
 msgid "Select a value"
 msgstr "Seleccione un valor"
 
-#: ../woocommerce/single-product/add-to-cart/canopytour.php:114
+#: ../woocommerce/single-product/add-to-cart/canopytour.php:120,
+#: ../woocommerce/single-product/add-to-cart/variable-canopytour.php:99,
+#: ../woocommerce/single-product/add-to-cart/variable.php:88
 msgid "No"
 msgstr "No"
+
+#: ../woocommerce/single-product/add-to-cart/variable-canopytour.php:63,
+#: ../woocommerce/single-product/add-to-cart/variable.php:51
+msgid "This product is currently out of stock and unavailable."
+msgstr "Este producto no se encuentra disponible temporalmente."

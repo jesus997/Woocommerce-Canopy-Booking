@@ -188,8 +188,11 @@ class WCB {
 
 			$this->loader->add_action( 'woocommerce_product_options_advanced', $woo_ct, 'wcb_add_product_enable_booking_data_to_variation_product_type' );
 			$this->loader->add_action( 'woocommerce_process_product_meta', $woo_ct, 'wcb_save_enable_booking_data_field' );
+			$this->loader->add_filter( 'woocommerce_data_stores', $woo_ct, 'wcb_add_woocommerce_data_store' );
+			$this->loader->add_action('woocommerce_booking_add_to_cart', $woo_ct, 'wcb_variable_canopytour_add_to_cart_button');
 
 			$this->loader->add_action( 'woocommerce_canopytour_add_to_cart', $woo_ct, 'wcb_canopytour_add_to_cart', 30);
+			$this->loader->add_action( 'woocommerce_variable_canopytour_add_to_cart', $woo_ct, 'wcb_variable_canopytour_add_to_cart', 30);
 			$this->loader->add_filter( 'woocommerce_locate_template', $woo_ct, 'wcb_woocommerce_locate_template', 10, 3 );
 
 			$woo_ed = new WCB_Woocommerce_Extra_Data( $this->get_wcb(), $this->get_version() );
