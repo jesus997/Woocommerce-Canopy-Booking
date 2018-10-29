@@ -278,3 +278,6 @@ msgstr ""
 #: ../woocommerce/single-product/add-to-cart/variable-canopytour.php:63, ../woocommerce/single-product/add-to-cart/variable.php:51
 msgid "This product is currently out of stock and unavailable."
 msgstr ""
+
+msgid "Discount"
+msgstr ""
