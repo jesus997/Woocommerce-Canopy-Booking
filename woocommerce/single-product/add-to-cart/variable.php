@@ -53,6 +53,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 	<?php if ($enable_booking_data) : ?>
 		<table class="canopytour-inputs" cellspacing="0">
             <tbody>
+			<input type="hidden" name="_early_discount" data-attribute_name="attribute_early_discount" value="0" onfocus="blur();" style="display:none;" />
                 <tr>
 					<td class="label">
                         <label for="_tour_date"><?= __("Select a date", "wcb") ?></label>

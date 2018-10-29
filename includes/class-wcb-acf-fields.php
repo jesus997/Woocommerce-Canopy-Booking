@@ -524,7 +524,6 @@ class WCB_ACF_Fields {
             'description' => '',
             'modified' => 1538067338,
         ));
-        
         endif;
     }
 }
