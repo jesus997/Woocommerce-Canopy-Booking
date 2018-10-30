@@ -93,6 +93,24 @@ class WCB_Woocommerce_Extra_Data {
         return $d;
     }
 
+    function get_variation_price_by_id($product_id, $variation_id){
+        $product = new WC_Product_Variable($product_id);
+        $variations = $product->get_available_variations();
+        foreach ($variations as $variation) {
+            if($variation['variation_id'] == $variation_id){
+                $regular_price = $variation['display_regular_price'];
+                $price = $variation['display_price'];
+            }
+        }
+     
+        $priceArray = array(
+            'regular_price' => $regular_price,
+            'price' => $price
+        );
+        $priceObject = (object)$priceArray;
+        return $priceObject;
+    }
+
     function tours_calculate_totals( $cart ) {
         if ( ! empty( $cart->cart_contents ) ) {
             foreach ( $cart->cart_contents as $cart_item_key => $cart_item ) {
@@ -106,6 +124,20 @@ class WCB_Woocommerce_Extra_Data {
                     $second_price = get_post_meta( $product->get_id(), 'second_price', true);
                     $second_price = empty($second_price) ? 0 : $second_price;
                     $new_price = ($regular_price * $adults) + ($second_price * $childs);
+                    if($discount > 0) {
+                        $new_price -= ($new_price * $discount)/100;
+                    }
+                    $cart_item['data']->set_price( $new_price );
+                    remove_action( 'woocommerce_before_calculate_totals', array($this, 'tours_calculate_totals'), 99 );
+                } else if( get_post_type($product->get_id()) === "product_variation" ) {
+                    $rdate = isset($cart_item['_tour_date']) ? $cart_item['_tour_date'] : date("d/m/Y");
+                    $discount = $this->calculate_date_discount($rdate);
+                    $pid = $cart_item['product_id'];
+                    $vid = $cart_item['variation_id'];
+                    $varitem = $this->get_variation_price_by_id($pid, $vid);
+                    $regular_price = $varitem->regular_price;
+                    $qty = $cart_item['quantity'];
+                    $new_price = ($regular_price * $qty);
                     if($discount > 0) {
                         $new_price -= ($new_price * $discount)/100;
                     }
