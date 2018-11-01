@@ -185,15 +185,15 @@ class wcb_acf_field_tag_input extends acf_field {
 		/*
 		*  Create a simple text input using the 'font_size' setting.
 		*/
-		
+		$taggleID = uniqid();
 		?>
-        <div id="tag_input_<?= esc_attr($field["key"]) ?>"></div>
-        <input type="hidden" id="<?= esc_attr($field["key"]) ?>_hidden" name="<?= esc_attr($field["name"]) ?>" value="<?= $field["value"] ?>" />
-        <small style="display:none;" id="<?= esc_attr($field["key"]) ?>_err_message"></small>
+        <div id="tag_input_<?= esc_attr($field["id"]) ?>"></div>
+        <input type="hidden" id="<?= esc_attr($field["id"]) ?>_hidden" name="<?= esc_attr($field["name"]) ?>" value="<?= $field["value"] ?>" />
+        <small style="display:none;" id="<?= esc_attr($field["id"]) ?>_err_message"></small>
         <script>
-            var taggle = new Taggle('tag_input_<?= esc_attr($field["key"]) ?>', {
+            var taggle<?= $taggleID ?> = new Taggle('tag_input_<?= esc_attr($field["id"]) ?>', {
                 tags: [<?= $out ?>],
-                placeholder: "<?= __('Enter the schedules for this tour... (Ej. 9:30)', 'wcb') ?>",
+                placeholder: "<?= __('Enter the schedules for this tour... (Ej. 09:30)', 'wcb') ?>",
                 allowDuplicates: <?= $field['allowDuplicates'] ? "true" : "false" ?>,
                 duplicateTagClass: "<?= $field['duplicateTagClass'] === "" ? "bounce" : "" ?>",
                 allowedTags: [], <?php
@@ -201,21 +201,21 @@ class wcb_acf_field_tag_input extends acf_field {
                 onBeforeTagAdd: function(event, tag) {
                     var re = new RegExp("<?= $field["regex"] ?>"); // ([01]?[0-9]|2[0-3]):[0-5][0-9]
                     if(!re.test(tag)) {
-                        $("#<?= esc_attr($field["key"]) ?>_err_message").text("El formato debe coincidir con el especificado.").show();
+                        $("#<?= esc_attr($field["id"]) ?>_err_message").text("El formato debe coincidir con el especificado.").show();
                         $(".taggle_list").addClass("taggle_error");
                     }
                     return re.test(tag);
                 }, <?php
                 } ?>
                 onTagAdd: function(e, t) {
-                    $("#<?= esc_attr($field["key"]) ?>_hidden").val(taggle.getTagValues().join()); <?php
+                    $("#<?= esc_attr($field["id"]) ?>_hidden").val(taggle<?= $taggleID ?>.getTagValues().join()); <?php
                     if($field["regex"] !== "") { ?>
                     $(".taggle_list").removeClass("taggle_error");
-                    $("#<?= esc_attr($field["key"]) ?>_err_message").text("").hide(); <?php
+                    $("#<?= esc_attr($field["id"]) ?>_err_message").text("").hide(); <?php
                     } ?>
                 },
                 onTagRemove: function(event, tag) {
-                    $("#<?= esc_attr($field["key"]) ?>_hidden").val(taggle.getTagValues().join());
+                    $("#<?= esc_attr($field["id"]) ?>_hidden").val(taggle<?= $taggleID ?>.getTagValues().join());
                 }
             });
         </script>
@@ -432,6 +432,7 @@ class wcb_acf_field_tag_input extends acf_field {
 	*/
 	
 	
+	
 	/*
 	*  format_value()
 	*
@@ -584,7 +585,7 @@ class wcb_acf_field_tag_input extends acf_field {
 	*/
 	
 	function update_field( $field ) {
-        
+		
 		return $field;
 		
 	}	

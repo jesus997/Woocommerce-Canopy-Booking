@@ -42,9 +42,8 @@ $enable_booking_data = value("enable_booking_data", false, $product->get_id());
 $transportation_json = [];
 
 foreach($transportations as $stop) {
-    $schedules = value("schedule", "", $stop);
-    $schedules = explode(",", $schedules);
-    $transportation_json[ get_the_title($stop) ] = $schedules;
+    $schedules = explode(",", $stop['schedule'] );
+    $transportation_json[ get_the_title($stop['transportation']) ] = $schedules;
 }
 
 $trans_i18n = [
@@ -99,7 +98,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 						<select name="_need_transportation" id="_need_transportation" data-attribute_name="attribute_need_transportation" required>
 							<option value="No"><?= __( 'No', 'wcb'); ?></option><?php
 							foreach ($transportations as $transportation) {
-								$stop = get_the_title($transportation); ?>
+								$stop = get_the_title($transportation['transportation']); ?>
 								<option value="<?= trim($stop) ?>"><?= $stop ?></option> <?php
 							} ?>
 						</select>
@@ -112,7 +111,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 					<td class="value">
 						<select name="_transportation_schedules" id="_transportation_schedules" data-attribute_name="attribute_transportation_schedules" required>
 							<option value="" disabled><?= __( 'Select a value', 'wcb'); ?></option><?php
-							$schedules = value("schedule", "", $transportation[0]);
+							$schedules = $transportation[0]['schedule'];
 							$schedules = explode(",", $schedules);
 							if(is_array($schedules) && !empty($schedules)) {
 								foreach($schedules as $schedule) { ?>

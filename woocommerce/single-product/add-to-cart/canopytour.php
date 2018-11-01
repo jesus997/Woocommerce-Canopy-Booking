@@ -33,9 +33,8 @@ $dates_blocked = value("dates_blocked", [], "wcb-options");
 $transportation_json = [];
 
 foreach($transportations as $stop) {
-    $schedules = value("schedule", "", $stop);
-    $schedules = explode(",", $schedules);
-    $transportation_json[ get_the_title($stop) ] = $schedules;
+    $schedules = explode(",", $stop['schedule'] );
+    $transportation_json[ get_the_title($stop['transportation']) ] = $schedules;
 }
 
 $trans_i18n = [
@@ -120,7 +119,7 @@ if ( $product->is_in_stock() ) : ?>
                             <select name="_need_transportation" id="_need_transportation" data-attribute_name="attribute_need_transportation" required>
                                 <option value="No"><?= __( 'No', 'wcb'); ?></option><?php
                                 foreach ($transportations as $transportation) {
-                                    $stop = get_the_title($transportation); ?>
+                                    $stop = get_the_title($transportation['transportation']); ?>
                                     <option value="<?= trim($stop) ?>"><?= $stop ?></option> <?php
                                 } ?>
                             </select>
@@ -132,8 +131,8 @@ if ( $product->is_in_stock() ) : ?>
                         </td>
                         <td class="value">
                             <select name="_transportation_schedules" id="_transportation_schedules" data-attribute_name="attribute_transportation_schedules" required>
-                                <option value="" disabled><?= __( 'Select a value', 'wcb'); ?></option><?php
-                                $schedules = value("schedule", "", $transportation[0]);
+                                <option value="-1" disabled><?= __( 'Select a value', 'wcb'); ?></option><?php
+                                $schedules = $transportation[0]['schedule'];
                                 $schedules = explode(",", $schedules);
                                 if(is_array($schedules) && !empty($schedules)) {
                                     foreach($schedules as $schedule) { ?>
@@ -188,7 +187,7 @@ if ( $product->is_in_stock() ) : ?>
                     if(data.length > 0) {
                         sems.hide();
                         trgt.show();
-                        trgt.find("option:not([value=\"\"])").remove();
+                        trgt.find("option:not([value=\"-1\"])").remove();
                         var html = "<option value=\"" + data[data.length - 1] + "\">" + data[data.length - 1] + "</option>";
                         /*$.each(data, function(i, g) {
                             html += "<option value=\"" + g + "\">" + g + "</option>";

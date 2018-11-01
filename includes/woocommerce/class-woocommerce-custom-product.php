@@ -46,7 +46,7 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 				jQuery( 'li.general_options.general_tab' ).addClass( 'show_if_canopytour show_if_simple show_if_external' ).show();
 				jQuery( '.variations_options.variations_tab' ).addClass( 'show_if_variable_canopytour' ).show();
 				jQuery( '.enable_variation' ).addClass( 'show_if_variable_canopytour' ).show();
-				jQuery( '#acf-group_5b9a99cc823ec' ).addClass( 'show_if_canopytour show_if_variable_canopytour' ).css("display", "none");
+				jQuery( '#acf-group_5b9a99cc823ec' ).addClass( 'show_if_canopytour show_if_variable_canopytour' );
 			});
 		</script><?php
 	}

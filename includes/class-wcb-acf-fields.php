@@ -26,7 +26,7 @@ class WCB_ACF_Fields {
                     'allowedTags' => '',
                     'regex' => '([01]?[0-9]|2[0-3]):[0-5][0-9]',
                 ),
-                array(
+                /*array(
                     'key' => 'field_5b9be74362591',
                     'label' => 'Transportation stops',
                     'name' => 'transportation_stops',
@@ -54,6 +54,68 @@ class WCB_ACF_Fields {
                     'return_format' => 'id',
                     'show_column' => 0,
                     'show_column_weight' => 1000,
+                ),*/
+                array(
+                    'key' => 'field_5bdb4ac926b7d',
+                    'label' => 'Transportation stops',
+                    'name' => 'transportation_stops',
+                    'type' => 'repeater',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => 0,
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'collapsed' => 'field_5bdb4adb26b7e',
+                    'min' => 0,
+                    'max' => 0,
+                    'layout' => 'block',
+                    'button_label' => 'Add stop',
+                    'sub_fields' => array(
+                        array(
+                            'key' => 'field_5bdb4adb26b7e',
+                            'label' => 'Transportation',
+                            'name' => 'transportation',
+                            'type' => 'post_object',
+                            'instructions' => 'Select one',
+                            'required' => 0,
+                            'conditional_logic' => 0,
+                            'wrapper' => array(
+                                'width' => '40',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'post_type' => array(
+                                0 => 'transtops',
+                            ),
+                            'taxonomy' => array(
+                            ),
+                            'allow_null' => 0,
+                            'multiple' => 0,
+                            'return_format' => 'id',
+                            'ui' => 1,
+                        ),
+                        array(
+                            'key' => 'field_5b9abgrd563b8',
+                            'label' => 'Schedule',
+                            'name' => 'schedule',
+                            'type' => 'tag_input',
+                            'instructions' => 'Format: HH:MM',
+                            'required' => 0,
+                            'conditional_logic' => 0,
+                            'wrapper' => array(
+                                'width' => '60',
+                                'class' => '',
+                                'id' => '',
+                            ),
+                            'allowDuplicates' => 0,
+                            'duplicateTagClass' => '',
+                            'allowedTags' => '',
+                            'regex' => '([01]?[0-9]|2[0-3]):[0-5][0-9]',
+                        ),
+                    ),
                 ),
                 array(
                     'key' => 'field_5ba14a5d2081d',
