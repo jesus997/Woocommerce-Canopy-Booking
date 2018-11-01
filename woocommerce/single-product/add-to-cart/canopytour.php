@@ -25,16 +25,20 @@ $schedule = value("schedule", false, $product->get_id());
 $max_adults = value("maximum_number_of_adults", 100, $product->get_id());
 $max_children = value("maximum_number_of_children", 100, $product->get_id());
 $second_price = value("second_price", false, $product->get_id());
-$transportations = value("transportation_stops", [], $product->get_id());
 
 $blocked_days = value("blocked_days", [], "wcb-options");
 $dates_blocked = value("dates_blocked", [], "wcb-options");
 
-$transportation_json = [];
+$transportation = [];
 
-foreach($transportations as $stop) {
-    $schedules = explode(",", $stop['schedule'] );
-    $transportation_json[ get_the_title($stop['transportation']) ] = $schedules;
+if($schedule && is_array($schedule)) {
+    foreach($schedule as $time) {
+        $stops = [];
+        foreach($time["stops"] as $stop) {
+            $stops[ get_the_title( $stop["stop"] ) ] = $stop["schedule"];
+        }
+        $transportation[$time['schedule']] = $stops;
+    }
 }
 
 $trans_i18n = [
@@ -73,10 +77,8 @@ if ( $product->is_in_stock() ) : ?>
                         <td class="value">
                             <select name="_tour_schedule" id="_tour_schedule" data-attribute_name="attribute_tour_schedule" required>
                                 <option value="" disabled><?= __( 'Select a value', 'wcb'); ?></option> <?php
-                                $schedule = explode(",", $schedule);
-                                natsort($schedule);
                                 foreach($schedule as $time) { ?>
-                                    <option value="<?= trim($time) ?>"><?= $time ?></option> <?php
+                                    <option value="<?= trim($time['schedule']) ?>"><?= $time['schedule'] ?></option> <?php
                                 } ?>
                             </select>
                         </td>
@@ -110,7 +112,8 @@ if ( $product->is_in_stock() ) : ?>
                         </td>
                     </tr> <?php
                 }
-                if(count($transportations) > 0) { ?>
+                if(count($transportation) > 0) {
+                    $fs = $schedule[0]['schedule']; ?>
                     <tr>
                         <td class="label">
                             <label for="_need_transportation"><?= __("Pick-up place", "wcb") ?></label>
@@ -118,9 +121,8 @@ if ( $product->is_in_stock() ) : ?>
                         <td class="value">
                             <select name="_need_transportation" id="_need_transportation" data-attribute_name="attribute_need_transportation" required>
                                 <option value="No"><?= __( 'No', 'wcb'); ?></option><?php
-                                foreach ($transportations as $transportation) {
-                                    $stop = get_the_title($transportation['transportation']); ?>
-                                    <option value="<?= trim($stop) ?>"><?= $stop ?></option> <?php
+                                foreach ($transportation[$fs] as $transpo => $schedule) { ?>
+                                    <option value="<?= trim($transpo) ?>"><?= $transpo ?></option> <?php
                                 } ?>
                             </select>
                         </td>
@@ -132,10 +134,8 @@ if ( $product->is_in_stock() ) : ?>
                         <td class="value">
                             <select name="_transportation_schedules" id="_transportation_schedules" data-attribute_name="attribute_transportation_schedules" required>
                                 <option value="-1" disabled><?= __( 'Select a value', 'wcb'); ?></option><?php
-                                $schedules = $transportation[0]['schedule'];
-                                $schedules = explode(",", $schedules);
-                                if(is_array($schedules) && !empty($schedules)) {
-                                    foreach($schedules as $schedule) { ?>
+                                if(is_array($transportation[$fs]) && !empty($transportation[$fs])) {
+                                    foreach($transportation[$fs] as $transpo => $schedule) { ?>
                                         <option value="<?= trim($schedule) ?>"><?= $schedule ?></option> <?php
                                     }
                                 } ?>
@@ -156,7 +156,7 @@ if ( $product->is_in_stock() ) : ?>
     <?php do_action( 'woocommerce_after_add_to_cart_form' ); ?>
     
     <script>
-        var TRANSJSON = <?= json_encode($transportation_json) ?>;
+        var TRANSJSON = <?= json_encode($transportation) ?>;
         var TRANSI18N = <?= json_encode($trans_i18n) ?>;
         (function($) {
             function data_show(t) {
@@ -175,12 +175,8 @@ if ( $product->is_in_stock() ) : ?>
                     trgt = $("#_transportation_schedules"),
                     sems = $("._transportation_schedules_message");
                 if(schd !== "" && plce !== "No") {
-                    data = $.map(data[plce], function(g, i) {
-                        var f = g.match(/\d/g),
-                            s = schd.match(/\d/g);
-                        f = f.join("");
-                        s = s.join("");
-                        if(parseInt(f) < parseInt(s)) {
+                    data = $.map(data[schd], function(g, i) {
+                        if(i === plce) {
                             return g;
                         }
                     });
@@ -188,10 +184,10 @@ if ( $product->is_in_stock() ) : ?>
                         sems.hide();
                         trgt.show();
                         trgt.find("option:not([value=\"-1\"])").remove();
-                        var html = "<option value=\"" + data[data.length - 1] + "\">" + data[data.length - 1] + "</option>";
-                        /*$.each(data, function(i, g) {
+                        var html = "";
+                        $.each(data, function(i, g) {
                             html += "<option value=\"" + g + "\">" + g + "</option>";
-                        });*/
+                        });
                         $(html).appendTo(trgt);
                     } else {
                         trgt.val("").hide();

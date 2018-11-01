@@ -99,7 +99,7 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
                         </td>
                         <td class="value">
                             <select name="_transportation_schedules" id="_transportation_schedules" data-attribute_name="attribute_transportation_schedules" required>
-                                <option value="" disabled><?= __( 'Select a value', 'wcb'); ?></option><?php
+                                <option value="-1" disabled><?= __( 'Select a value', 'wcb'); ?></option><?php
                                 $schedules = $transportation[0]['schedule'];
                                 $schedules = explode(",", $schedules);
                                 if(is_array($schedules) && !empty($schedules)) {
