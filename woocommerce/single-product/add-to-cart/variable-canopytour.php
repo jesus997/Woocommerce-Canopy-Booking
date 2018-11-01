@@ -204,10 +204,10 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 					sems.hide();
 					trgt.show();
 					trgt.find("option:not([value=\"\"])").remove();
-					var html = "";
-					$.each(data, function(i, g) {
+					var html = "<option value=\"" + data[data.length - 1] + "\">" + data[data.length - 1] + "</option>";
+					/*$.each(data, function(i, g) {
 						html += "<option value=\"" + g + "\">" + g + "</option>";
-					});
+					});*/
 					$(html).appendTo(trgt);
 				} else {
 					trgt.val("").hide();
