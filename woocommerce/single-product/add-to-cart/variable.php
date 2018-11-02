@@ -88,7 +88,8 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
                         </td>
                     </tr> <?php
                 }
-                if(count($transportation) > 0) { ?>
+                if(count($transportation) > 0) {
+					$fs = $schedule[0]['schedule']; ?>
                     <tr>
                         <td class="label">
                             <label for="_need_transportation"><?= __("Pick-up place", "wcb") ?></label>
