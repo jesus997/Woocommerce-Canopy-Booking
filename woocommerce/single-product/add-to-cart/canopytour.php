@@ -29,6 +29,14 @@ $second_price = value("second_price", false, $product->get_id());
 $blocked_days = value("blocked_days", [], "wcb-options");
 $dates_blocked = value("dates_blocked", [], "wcb-options");
 
+$sbd = value("blocked_days", [], $product->get_id());
+$sdb = value("dates_blocked", [], $product->get_id());
+
+$blocked_days = array_merge($blocked_days, $sbd);
+$dates_blocked = array_merge($dates_blocked, $sdb);
+
+$blocked_days = array_unique($blocked_days);
+
 $transportation = [];
 
 if($schedule && is_array($schedule)) {
