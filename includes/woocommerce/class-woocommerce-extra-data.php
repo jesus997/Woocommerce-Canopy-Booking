@@ -136,10 +136,11 @@ class WCB_Woocommerce_Extra_Data {
                     $vid = $cart_item['variation_id'];
                     $varitem = $this->get_variation_price_by_id($pid, $vid);
                     $regular_price = $varitem->regular_price;
-                    $qty = $cart_item['quantity'];
-                    $new_price = ($regular_price * $qty);
+                    /*$qty = $cart_item['quantity'];
+                    $new_price = ($regular_price * $qty);*/
+                    $new_price = $regular_price;
                     if($discount > 0) {
-                        $new_price -= ($new_price * $discount)/100;
+                        $new_price -= ($regular_price * $discount)/100;
                     }
                     $cart_item['data']->set_price( $new_price );
                     remove_action( 'woocommerce_before_calculate_totals', array($this, 'tours_calculate_totals'), 99 );
