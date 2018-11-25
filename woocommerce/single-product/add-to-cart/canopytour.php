@@ -87,8 +87,11 @@ if ( $product->is_in_stock() ) : ?>
                         <td class="value">
                             <select name="_tour_schedule" id="_tour_schedule" data-attribute_name="attribute_tour_schedule" required>
                                 <option value="" disabled><?= __( 'Select a value', 'wcb'); ?></option> <?php
-                                foreach($schedule as $time) { ?>
-                                    <option value="<?= trim($time['schedule']) ?>"><?= $time['schedule'] ?></option> <?php
+                                $i = 0;
+                                foreach($schedule as $time) {
+                                    $selected = $i === 0 ? ' selected="selected"' : '' ; ?>
+                                    <option value="<?= trim($time['schedule']) ?>"<?= $selected ?>><?= $time['schedule'] ?></option> <?php
+                                    $i++;
                                 } ?>
                             </select>
                         </td>
@@ -196,7 +199,8 @@ if ( $product->is_in_stock() ) : ?>
                         trgt.find("option:not([value=\"-1\"])").remove();
                         var html = "";
                         $.each(data, function(i, g) {
-                            html += "<option value=\"" + g + "\">" + g + "</option>";
+                            var selected = i == 0 ? ' selected="selected"' : '';
+                            html += "<option value=\"" + g + "\"" + selected + ">" + g + "</option>";
                         });
                         $(html).appendTo(trgt);
                     } else {
