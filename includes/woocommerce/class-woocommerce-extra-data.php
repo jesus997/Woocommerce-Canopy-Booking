@@ -15,7 +15,9 @@ class WCB_Woocommerce_Extra_Data {
             "_tour_children"      => __("Children", $this->wcb),
             "_need_transportation"  => __("Pick-up place", $this->wcb),
             "_transportation_schedules" => __("Pick-up schedule", $this->wcb),
-            "_early_discount" => __("Discount", $this->wcb)
+            "_early_discount" => __("Discount", $this->wcb),
+            "_bnf_discount" => __("Buen Fin", $this->wcb),
+            "_blf_discount" => __("Black Friday", $this->wcb)
         ];
     }
     
@@ -30,6 +32,12 @@ class WCB_Woocommerce_Extra_Data {
                 break;
             case "_early_discount":
                 $show = !isset($_REQUEST["__early_discount"]) || $_REQUEST["__early_discount"] === false;
+                break;
+            case "_bnf_discount":
+                $show = !isset($_REQUEST["__bnf_discount"]) || $_REQUEST["__bnf_discount"] === false;
+                break;
+            case "_blf_discount":
+                $show = !isset($_REQUEST["__blf_discount"]) || $_REQUEST["__blf_discount"] === false;
                 break;
         }
         return $show;
@@ -47,7 +55,26 @@ class WCB_Woocommerce_Extra_Data {
             }
         }
         $discount = $this->calculate_date_discount($tour_date);
-        if($discount > 0) {
+        $bnfd = $this->calculate_two_dates_discount();
+        $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
+
+        $lang = substr( get_bloginfo ( 'language' ), 0, 2 );
+
+        $rbd = false;
+
+        if($lang === "es") {
+            if($bnfd > 0) {
+                $cart_item_data["_bnf_discount"] = "-$bnfd% OFF";
+                $rbd = true;
+            }
+        } else if($lang === "en") {
+            if($blfd > 0) {
+                $cart_item_data["_blf_discount"] = "-$blfd% OFF";
+                $rbd = true;
+            }
+        }
+
+        if($discount > 0 && !$rbd) {
             $cart_item_data["_early_discount"] = "-$discount% OFF";
         }
         return $cart_item_data;
@@ -72,6 +99,21 @@ class WCB_Woocommerce_Extra_Data {
                 $item->add_meta_data($attr,$values[$attr]);
             }
         }
+    }
+
+    function calculate_two_dates_discount($d1="16/11/2018", $d2="19/11/2018", $d=25) {
+        $bnf_start = DateTime::createFromFormat("d/m/Y", $d1);
+        $bnf_end = DateTime::createFromFormat("d/m/Y", $d2);
+        $today = DateTime::createFromFormat("d/m/Y", date("d/m/Y"));
+
+        $bs = strtotime($bnf_start->format("Y-m-d"));
+        $be = strtotime($bnf_end->format("Y-m-d"));
+        $t = strtotime($today->format("Y-m-d"));
+
+        if($t >= $bs && $t <= $be) {
+            return $d;
+        }
+        return 0;
     }
 
     function calculate_date_discount($tour_date) {
@@ -124,9 +166,32 @@ class WCB_Woocommerce_Extra_Data {
                     $second_price = get_post_meta( $product->get_id(), 'second_price', true);
                     $second_price = empty($second_price) ? 0 : $second_price;
                     $new_price = ($regular_price * $adults) + ($second_price * $childs);
-                    if($discount > 0) {
+
+                    /* Buen Fin Descuento */
+                    $bnfd = $this->calculate_two_dates_discount();
+                    /* Black Friday Descuento */
+                    $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
+
+                    $lang = substr( get_bloginfo ( 'language' ), 0, 2 );
+
+                    $rbd = false;
+
+                    if($lang === "es") {
+                        if($bnfd > 0) {
+                            $new_price -= ($new_price * $bnfd) / 100;
+                            $rbd = true;
+                        }
+                    } else if($lang === "en") {
+                        if($blfd > 0) {
+                            $new_price -= ($new_price * $blfd) / 100;
+                            $rbd = true;
+                        }
+                    }
+
+                    if($discount > 0 && !$rbd) {
                         $new_price -= ($new_price * $discount)/100;
                     }
+
                     $cart_item['data']->set_price( $new_price );
                     remove_action( 'woocommerce_before_calculate_totals', array($this, 'tours_calculate_totals'), 99 );
                 } else if( get_post_type($product->get_id()) === "product_variation" ) {
@@ -139,9 +204,32 @@ class WCB_Woocommerce_Extra_Data {
                     /*$qty = $cart_item['quantity'];
                     $new_price = ($regular_price * $qty);*/
                     $new_price = $regular_price;
-                    if($discount > 0) {
-                        $new_price -= ($regular_price * $discount)/100;
+
+                    /* Buen Fin Descuento */
+                    $bnfd = $this->calculate_two_dates_discount();
+                    /* Black Friday Descuento */
+                    $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
+
+                    $lang = substr( get_bloginfo ( 'language' ), 0, 2 );
+
+                    $rbd = false;
+
+                    if($lang === "es") {
+                        if($bnfd > 0) {
+                            $new_price -= ($new_price * $bnfd) / 100;
+                            $rbd = true;
+                        }
+                    } else if($lang === "en") {
+                        if($blfd > 0) {
+                            $new_price -= ($new_price * $blfd) / 100;
+                            $rbd = true;
+                        }
                     }
+
+                    if($discount > 0 && !$rbd) {
+                        $new_price -= ($new_price * $discount)/100;
+                    }
+
                     $cart_item['data']->set_price( $new_price );
                     remove_action( 'woocommerce_before_calculate_totals', array($this, 'tours_calculate_totals'), 99 );
                 }

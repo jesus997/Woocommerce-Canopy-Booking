@@ -69,6 +69,8 @@ if ( $product->is_in_stock() ) : ?>
 		<table class="canopytour-inputs" cellspacing="0">
             <tbody>
                 <input type="hidden" name="_early_discount" data-attribute_name="attribute_early_discount" value="0" onfocus="blur();" style="display:none;" />
+                <input type="hidden" name="_bnf_discount" data-attribute_name="attribute_bnf_discount" value="0" onfocus="blur();" style="display:none;" />
+                <input type="hidden" name="_blf_discount" data-attribute_name="attribute_blf_discount" value="0" onfocus="blur();" style="display:none;" />
                 <tr>
 					<td class="label">
                         <label for="_tour_date"><?= __("Select a date", "wcb") ?></label>
