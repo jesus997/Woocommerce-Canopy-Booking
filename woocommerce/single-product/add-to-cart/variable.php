@@ -101,14 +101,14 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
                         </td>
                         <td class="value">
                             <select name="_need_transportation" id="_need_transportation" data-attribute_name="attribute_need_transportation" required>
-                                <option value="No"><?= __( 'No', 'wcb'); ?></option><?php
+                                <!--<option value="No"><?= __( 'No', 'wcb'); ?></option>--><?php
                                 foreach ($transportation[$fs] as $transpo => $schedule) { ?>
                                     <option value="<?= trim($transpo) ?>"><?= $transpo ?></option> <?php
                                 } ?>
                             </select>
                         </td>
                     </tr>
-                    <tr data-show-if="_need_transportation" data-is="No">
+                    <tr> <!-- data-show-if="_need_transportation" data-is="No" -->
                         <td class="label">
                             <label for="_transportation_schedules"><?= __("Pick-up schedule", "wcb") ?></label>
                         </td>
