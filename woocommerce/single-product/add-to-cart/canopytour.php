@@ -24,6 +24,7 @@ echo wc_get_stock_html( $product ); // WPCS: XSS ok.
 $schedule = value("schedule", false, $product->get_id());
 $max_adults = value("maximum_number_of_adults", 100, $product->get_id());
 $max_children = value("maximum_number_of_children", 100, $product->get_id());
+$childrens_field_caption = value("childrens_field_caption", "", $product->get_id());
 $second_price = value("second_price", false, $product->get_id());
 
 $blocked_days = value("blocked_days", [], "wcb-options");
@@ -115,13 +116,16 @@ if ( $product->is_in_stock() ) : ?>
                         <td class="label">
                             <label for="_tour_children"><?= __("Children", "wcb") ?> (<?= wc_price($second_price) ?>)</label>
                         </td>
-                        <td class="value"> <?php
+                        <td class="value children_quantity_input">
+                            <div class="input"> <?php
                             woocommerce_quantity_input( array(
                                 'input_name'    => '_tour_children',
                                 'min_value'     => 0,
                                 'max_value'     => $max_children,
                                 'input_value'   => $dchildren, // WPCS: CSRF ok, input var ok.
                             ) ); ?>
+                            </div>
+                            <small><?= $childrens_field_caption ?></small>
                         </td>
                     </tr> <?php
                 }

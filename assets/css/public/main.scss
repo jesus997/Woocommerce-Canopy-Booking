@@ -624,6 +624,14 @@
 
 /** CUSTOM **/
 
-.variation-Discount {
+.variation-Discount, .variation-Descuento {
   font-weight: bold;
+}
+
+.children_quantity_input {
+  display: flex !important;
+  align-items: center;
+  small {
+    font-size: 90%;
+  }
 }

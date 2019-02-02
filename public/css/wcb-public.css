@@ -729,7 +729,13 @@
   border: none; }
 
 /** CUSTOM **/
-.variation-Discount {
+.variation-Discount, .variation-Descuento {
   font-weight: bold; }
+
+.children_quantity_input {
+  display: flex !important;
+  align-items: center; }
+  .children_quantity_input small {
+    font-size: 90%; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIuL3B1YmxpYy9jc3Mvd2NiLXB1YmxpYy5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/
