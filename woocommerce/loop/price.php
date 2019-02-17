@@ -11,7 +11,6 @@
  * the readme will list any important changes.
  *
  * @see 	    https://docs.woocommerce.com/document/template-structure/
- * @author 		WooThemes
  * @package 	WooCommerce/Templates
  * @version     1.6.4
  */
@@ -19,13 +18,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 global $product;
+
+$price = $product->get_price();
 ?>
 
-<?php if ( $price_html = $product->get_price_html() ) :
-	$second_price = value("second_price", 0, $product->get_id());
-	if($product->is_type( 'canopytour' ) && $second_price > 0) : ?>
-		<span class="price"><?= __("From ", "wcb")." ".wc_price($second_price); ?></span> <?php
-	else: ?>
-		<span class="price"><?= __("From ", "wcb")." ".$price_html; ?></span> <?php
+<?php if ( '' !== $price ) :
+	if($product->is_type( 'canopytour' ) && $second_price > 0) :
+		$price = value("second_price", 0, $product->get_id());
 	endif; ?>
+	<span class="price"><?= __("From ", "wcb")." ".wc_price($price); ?></span>
 <?php endif; ?>

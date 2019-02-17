@@ -13,12 +13,12 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 		
 		include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_canopytour.php');
-		include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_variable_canopytour.php');
+		//include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_variable_canopytour.php');
 	}
 
 	public function add_canopytour_product( $types ) {
 		$types[ 'canopytour' ] = __( 'Canopy Tour', $this->wcb );
-		$types[ 'variable_canopytour' ] = __( 'Variable Canopy Tour', $this->wcb );
+		//$types[ 'variable_canopytour' ] = __( 'Variable Canopy Tour', $this->wcb );
 		return $types;
 	}
 
@@ -169,7 +169,7 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 	}
 
 	function wcb_add_woocommerce_data_store ($stores){
-		$stores['product-variable_canopytour'] = 'WC_Product_Variable_Data_Store_CPT';
+		//$stores['product-variable_canopytour'] = 'WC_Product_Variable_Data_Store_CPT';
 		return $stores;
 	}
 }

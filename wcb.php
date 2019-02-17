@@ -127,6 +127,46 @@ function simplificyDates($dates) {
 	return $simplificy;
 }
 
+function getTransportationSchedule($schedule=[]) {
+	$transportation = [];
+	if($schedule && is_array($schedule)) {
+		foreach($schedule as $time) {
+			$stops = [];
+			foreach($time["stops"] as $stop) {
+				$stops[ get_the_title( $stop["stop"] ) ] = $stop["schedule"];
+			}
+			$transportation[$time['schedule']] = $stops;
+		}
+	}
+	return $transportation;
+}
+
+function getBlockedDays($product) {
+	$blocked_days = value("blocked_days", [], "wcb-options");
+	$sbd = value("blocked_days", [], $product->get_id());
+	$blocked_days = array_merge($blocked_days, $sbd);
+	$blocked_days = array_unique($blocked_days);
+	return $blocked_days;
+}
+
+function getDatesBlocked($product) {
+	$dates_blocked = value("dates_blocked", [], "wcb-options");
+	$sdb = value("dates_blocked", [], $product->get_id());
+	$dates_blocked = array_merge($dates_blocked, $sdb);
+	return $dates_blocked;
+}
+
+function wcb_request($key, $default) {
+	if(array_key_exists($key, $_GET)) {
+		return $_GET[$key];
+	} else if(array_key_exists($key, $_POST)) {
+		return $_POST[$key];
+	} else if(array_key_exists($key, $_REQUEST)) {
+		return $_REQUEST[$key];
+	}
+	return $default;
+}
+
 if( ! function_exists('wc_display_item_meta') ) {
 
 function wc_display_item_meta( $item, $args = array() ) {
