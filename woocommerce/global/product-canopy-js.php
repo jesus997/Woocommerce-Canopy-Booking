@@ -75,7 +75,8 @@ $tour_date = $tour_date->format('Y/m/d');
 					if (cellType == 'day') {
 						var day = date.getDay(),
 							mth = date.getMonth() + 1,
-							dat = date.getDate() + "/" + (mth < 10 ? "0" : "") + mth + "/" + date.getFullYear(),
+							dte = date.getDate(),
+							dat = (dte < 10 ? "0" : "") + dte + "/" + (mth < 10 ? "0" : "") + mth + "/" + date.getFullYear(),
 							isDisabled = (blocked_days.indexOf(day) != -1 || dates_blocked.indexOf(dat) != -1);
 						return {
 							disabled: isDisabled

@@ -16,7 +16,7 @@ class WCB_Woocommerce_Extra_Data {
             "_need_transportation"  => __("Pick-up place", $this->wcb),
             "_transportation_schedules" => __("Pick-up schedule", $this->wcb),
             "_early_discount" => __("Discount", $this->wcb),
-            "_bnf_discount" => __("Buen Fin", $this->wcb),
+            "_bnf_discount" => __("Discount", $this->wcb),
             "_blf_discount" => __("Black Friday", $this->wcb)
         ];
     }
@@ -55,7 +55,7 @@ class WCB_Woocommerce_Extra_Data {
             }
         }
         $discount = $this->calculate_date_discount($tour_date);
-        $bnfd = $this->calculate_two_dates_discount();
+        $bnfd = $this->calculate_two_dates_discount("9/04/2019", "25/04/2019", 25, $tour_date);
         $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
 
         $lang = substr( get_bloginfo ( 'language' ), 0, 2 );
@@ -101,10 +101,10 @@ class WCB_Woocommerce_Extra_Data {
         }
     }
 
-    function calculate_two_dates_discount($d1="16/11/2018", $d2="19/11/2018", $d=25) {
+    function calculate_two_dates_discount($d1="16/11/2018", $d2="19/11/2018", $d=25, $d0=false) {
         $bnf_start = DateTime::createFromFormat("d/m/Y", $d1);
         $bnf_end = DateTime::createFromFormat("d/m/Y", $d2);
-        $today = DateTime::createFromFormat("d/m/Y", date("d/m/Y"));
+        $today = DateTime::createFromFormat("d/m/Y", !$d0 ? date("d/m/Y") : $d0);
 
         $bs = strtotime($bnf_start->format("Y-m-d"));
         $be = strtotime($bnf_end->format("Y-m-d"));
@@ -168,7 +168,7 @@ class WCB_Woocommerce_Extra_Data {
                     $new_price = ($regular_price * $adults) + ($second_price * $childs);
 
                     /* Buen Fin Descuento */
-                    $bnfd = $this->calculate_two_dates_discount();
+                    $bnfd = $this->calculate_two_dates_discount("9/04/2019", "25/04/2019", 25, $rdate);
                     /* Black Friday Descuento */
                     $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
 
@@ -206,7 +206,7 @@ class WCB_Woocommerce_Extra_Data {
                     $new_price = $regular_price;
 
                     /* Buen Fin Descuento */
-                    $bnfd = $this->calculate_two_dates_discount();
+                    $bnfd = $this->calculate_two_dates_discount("9/04/2019", "25/04/2019", 25, $rdate);
                     /* Black Friday Descuento */
                     $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
 
