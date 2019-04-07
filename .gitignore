@@ -76,6 +76,7 @@ typings/
 assets/
 
 # Custom Files
+.DS_Store
 Woocommerce-Canopy-Booking.Zip
 package-lock.json
 webpack.config.js
