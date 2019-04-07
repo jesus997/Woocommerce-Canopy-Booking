@@ -1,0 +1,39 @@
+{
+	"name": "WooCommerce Canopy Booking",
+	"version": "2.2.1",
+	"download_url": "https://github.com/jesus997/Woocommerce-Canopy-Booking/raw/master/Woocommerce-Canopy-Booking.zip",
+
+	"homepage": "https://github.com/jesus997/Woocommerce-Canopy-Booking",
+	"requires": "4.5",
+	"tested": "5.1.1",
+	"last_updated": "2019-04-07 15:04:00",
+	"upgrade_notice": "Add auto-update system",
+
+	"author": "Jesús Magallón",
+	"author_homepage": "https://yosoydev.net",
+
+	"sections": {
+		"description": "This plugin adds the functionality of a Booking for websites dedicated to the sale of Canopy Tours.",
+		"installation": "1. Upload `Woocommerce-Canopy-Booking.zip` to the `/wp-content/plugins/` directory<br/>2. Activate the plugin through the 'Plugins' menu in WordPress<br/>3. Enjoy :)",
+		"changelog": "* Add auto-update system",
+		"custom_section": "This is a custom section labeled 'Custom Section'."
+	},
+	
+	"icons" : {
+		"1x" : "http://w-shadow.com/files/external-update-example/assets/icon-128x128.png",
+		"2x" : "http://w-shadow.com/files/external-update-example/assets/icon-256x256.png"
+    },
+
+	"banners": {
+		"low": "http://w-shadow.com/files/external-update-example/assets/banner-772x250.png",
+		"high": "http://w-shadow.com/files/external-update-example/assets/banner-1544x500.png"
+	},
+
+	"translations": [],
+
+	"rating": 0,
+	"num_ratings": 0,
+
+	"downloaded": 0,
+	"active_installs": 0
+}

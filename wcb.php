@@ -232,6 +232,18 @@ function request($id, $default=false, $method="post") {
 require plugin_dir_path( __FILE__ ) . 'includes/class-wcb.php';
 
 /**
+ * Add updates system
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/updater/plugin-update-checker.php';
+
+$wcbUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/jesus997/Woocommerce-Canopy-Booking/',
+	__FILE__,
+	'Woocommerce-Canopy-Booking'
+);
+$wcbUpdateChecker->setBranch('production');
+
+/**
  * Begins execution of the plugin.
  *
  * Since everything within the plugin is registered via hooks,
