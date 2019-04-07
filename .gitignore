@@ -71,3 +71,11 @@ typings/
 
 # Serverless directories
 .serverless
+
+# Assets
+assets/
+
+# Custom Files
+Woocommerce-Canopy-Booking.Zip
+package-lock.json
+webpack.config.js
