@@ -17,7 +17,8 @@ class WCB_Woocommerce_Extra_Data {
             "_transportation_schedules" => __("Pick-up schedule", $this->wcb),
             "_early_discount" => __("Discount", $this->wcb),
             "_bnf_discount" => __("Discount", $this->wcb),
-            "_blf_discount" => __("Black Friday", $this->wcb)
+            "_blf_discount" => __("Black Friday", $this->wcb),
+            "__is_vehicle" => "is_vehicle"
         ];
     }
     
@@ -52,6 +53,8 @@ class WCB_Woocommerce_Extra_Data {
                 if($attr === "_tour_date") {
                     $tour_date = sanitize_text_field($_REQUEST[$attr]);
                 }
+            } else if($attr === "__is_vehicle") {
+                $cart_item_data[$attr] = value("is_vehicle", false, $product_id);
             }
         }
         $discount = $this->calculate_date_discount($tour_date);
@@ -77,6 +80,7 @@ class WCB_Woocommerce_Extra_Data {
         if($discount > 0 && !$rbd) {
             $cart_item_data["_early_discount"] = "-$discount% OFF";
         }
+
         return $cart_item_data;
     }
 
