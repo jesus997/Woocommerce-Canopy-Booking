@@ -18,7 +18,8 @@ class WCB_Woocommerce_Extra_Data {
             "_early_discount" => __("Discount", $this->wcb),
             "_bnf_discount" => __("Discount", $this->wcb),
             "_blf_discount" => __("Black Friday", $this->wcb),
-            "__is_vehicle" => "is_vehicle"
+            "__is_vehicle" => "is_vehicle",
+            "__type_vehicle" => "type_vehicle"
         ];
     }
     
@@ -55,6 +56,8 @@ class WCB_Woocommerce_Extra_Data {
                 }
             } else if($attr === "__is_vehicle") {
                 $cart_item_data[$attr] = value("is_vehicle", false, $product_id);
+            } else if($attr === "__type_vehicle") {
+                $cart_item_data[$attr] = value("type_of_vehicle", "ATV", $product_id);
             }
         }
         $discount = $this->calculate_date_discount($tour_date);

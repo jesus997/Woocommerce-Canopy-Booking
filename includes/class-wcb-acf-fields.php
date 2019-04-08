@@ -332,6 +332,40 @@ class WCB_ACF_Fields {
                     'ui_off_text' => '',
                 ),
                 array(
+                    'key' => 'field_5caa8bf3bf3c9',
+                    'label' => 'Type of Vehicle',
+                    'name' => 'type_of_vehicle',
+                    'type' => 'select',
+                    'instructions' => '',
+                    'required' => 0,
+                    'conditional_logic' => array(
+                        array(
+                            array(
+                                'field' => 'field_5caa684db47c1',
+                                'operator' => '==',
+                                'value' => '1',
+                            ),
+                        ),
+                    ),
+                    'wrapper' => array(
+                        'width' => '',
+                        'class' => '',
+                        'id' => '',
+                    ),
+                    'choices' => array(
+                        'ATV' => 'ATV',
+                        'RZR' => 'RZR',
+                    ),
+                    'default_value' => array(
+                    ),
+                    'allow_null' => 0,
+                    'multiple' => 0,
+                    'ui' => 1,
+                    'ajax' => 0,
+                    'return_format' => 'value',
+                    'placeholder' => '',
+                ),
+                array(
                     'key' => 'field_5bdb71a74ec71',
                     'label' => 'Date',
                     'name' => '',
