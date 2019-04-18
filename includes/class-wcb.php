@@ -202,6 +202,10 @@ class WCB {
 			$this->loader->add_action( 'woocommerce_before_calculate_totals', $woo_ed, 'tours_calculate_totals', 99 );
 			$this->loader->add_filter( 'woocommerce_attribute_label', $woo_ed, 'tours_woocommerce_attribute_label', 10, 3 );
 
+			$this->loader->add_filter( 'woocommerce_variation_options_pricing', $woo_ed, 'wcb_add_passenger_limit_field_to_variations', 10, 3 );
+			$this->loader->add_filter( 'woocommerce_save_product_variation', $woo_ed, 'wcb_save_passenger_limit_field_variations', 10, 2 );
+			$this->loader->add_filter( 'woocommerce_available_variation', $woo_ed, 'wcb_add_passenger_limit_field_variation_data' );
+
 			$this->loader->add_action('woocommerce_price_format', $woo_ed, 'wcb_currency_symbol', 1, 2);
 
 			$woo_acf = new WCB_ACF_Fields();

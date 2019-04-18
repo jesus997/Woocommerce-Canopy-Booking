@@ -22,7 +22,8 @@ class WCB_Woocommerce_Extra_Data {
             "__type_vehicle" => "type_vehicle",
             "__adults_price" => "adults_price",
             "__children_price" => "children_price",
-            "__vehicle_price" => "vehicle_price"
+            "__vehicle_price" => "vehicle_price",
+            "__passenger_limit" => "passenger_limit"  
         ];
     }
     
@@ -75,6 +76,8 @@ class WCB_Woocommerce_Extra_Data {
                     }
                 }
                 $cart_item_data[$attr] = $price;
+            } else if($attr === "__passenger_limit") {
+                $cart_item_data[$attr] = value("passenger_limit", 1, $variation_id);
             }
         }
         $discount = $this->calculate_date_discount($tour_date);
@@ -283,5 +286,27 @@ class WCB_Woocommerce_Extra_Data {
                 $format = '%1$s%2$s&nbsp;';
         }
         return $format;
+    }
+
+    function wcb_add_passenger_limit_field_to_variations( $loop, $variation_data, $variation ) {
+        woocommerce_wp_text_input( array(
+            'id' => 'passenger_limit[' . $loop . ']',
+            'class' => 'short',
+            'label' => __( 'Passenger limit', 'wcb' ),
+            'value' => get_post_meta( $variation->ID, 'passenger_limit', true ),
+            'wrapper_class' => 'form-row',
+            'data_type' => 'stock',
+            'type' => 'number'
+        ) );
+    }
+
+    function wcb_save_passenger_limit_field_variations( $variation_id, $i ) {
+        $passenger_limit = $_POST['passenger_limit'][$i];
+        if ( isset( $passenger_limit ) ) update_post_meta( $variation_id, 'passenger_limit', esc_attr( $passenger_limit ) );
+    }
+
+    function wcb_add_passenger_limit_field_variation_data( $variations ) {
+        $variations['passenger_limit'] = '<div class="woocommerce_passenger_limit">'.__( 'Passenger limit', 'wcb' ).': <span>' . get_post_meta( $variations[ 'variation_id' ], 'passenger_limit', true ) . '</span></div>';
+        return $variations;
     }
 }
