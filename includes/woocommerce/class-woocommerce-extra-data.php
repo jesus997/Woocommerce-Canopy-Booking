@@ -19,7 +19,10 @@ class WCB_Woocommerce_Extra_Data {
             "_bnf_discount" => __("Discount", $this->wcb),
             "_blf_discount" => __("Black Friday", $this->wcb),
             "__is_vehicle" => "is_vehicle",
-            "__type_vehicle" => "type_vehicle"
+            "__type_vehicle" => "type_vehicle",
+            "__adults_price" => "adults_price",
+            "__children_price" => "children_price",
+            "__vehicle_price" => "vehicle_price"
         ];
     }
     
@@ -57,7 +60,21 @@ class WCB_Woocommerce_Extra_Data {
             } else if($attr === "__is_vehicle") {
                 $cart_item_data[$attr] = value("is_vehicle", false, $product_id);
             } else if($attr === "__type_vehicle") {
-                $cart_item_data[$attr] = value("type_of_vehicle", "ATV", $product_id);
+                $cart_item_data[$attr] = value("type_of_vehicle", "", $product_id);
+            } else if($attr === "__adults_price" || $attr === "__children_price" || $attr === "__vehicle_price") {
+                if($attr === "__children_price") {
+                    $price = get_post_meta( $product_id, 'second_price', true);
+                } else if($attr === "__vehicle_price" && get_post_type($product_id) === "product_variation") {
+                    $varitem = $this->get_variation_price_by_id($product_id, $variation_id);
+                    $price = $varitem->regular_price;
+                } else {
+                    $product = wc_get_product($product_id);
+                    $price = 0;
+                    if($product) {
+                        $price = $product->get_price();
+                    }
+                }
+                $cart_item_data[$attr] = $price;
             }
         }
         $discount = $this->calculate_date_discount($tour_date);
@@ -197,6 +214,7 @@ class WCB_Woocommerce_Extra_Data {
 
                     if($discount > 0 && !$rbd) {
                         $new_price -= ($new_price * $discount)/100;
+                        //$cart->add_fee('Descuento 15%', -(($new_price * $discount)/100), true, '');
                     }
 
                     $cart_item['data']->set_price( $new_price );

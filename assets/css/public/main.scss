@@ -628,7 +628,9 @@
   font-weight: bold;
 }
 
-.variation-is_vehicle, .variation-type_vehicle {
+.variation-is_vehicle, .variation-type_vehicle,
+.variation-adults_price, .variation-children_price,
+.variation-vehicle_price {
   display: none !important;
 }
 
