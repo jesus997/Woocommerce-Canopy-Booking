@@ -208,6 +208,11 @@ class WCB {
 
 			$this->loader->add_action('woocommerce_price_format', $woo_ed, 'wcb_currency_symbol', 1, 2);
 
+			$this->loader->add_action('woocommerce_email_after_order_table', $woo_ed, 'wcb_email_after_order_table', 1, 1);
+			$this->loader->add_action('woocommerce_order_details_after_order_table', $woo_ed, 'wcb_email_after_order_table', 1, 1);
+
+			//$this->loader->add_action( 'woocommerce_email_header', $woo_ed, 'wcb_add_css_to_emails' );
+
 			$woo_acf = new WCB_ACF_Fields();
 			$this->loader->add_action( 'init', $woo_acf, 'load_fields' );
 		}

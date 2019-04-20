@@ -75,6 +75,11 @@ do_action( 'woocommerce_before_add_to_cart_form' ); ?>
 			 * @hooked woocommerce_single_variation_add_to_cart_button - 20 Qty and cart button.
 			 */
 			do_action( 'woocommerce_single_variation' );
+
+			wc_get_template("global/souvenirs.php", [
+				"product" => $product,
+			]);
+
 			/**
 			 * Hook: woocommerce_after_single_variation.
 			 */

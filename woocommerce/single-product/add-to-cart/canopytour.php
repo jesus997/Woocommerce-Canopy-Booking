@@ -44,9 +44,11 @@ if ( $product->is_in_stock() ) : ?>
 			"dchildren" => $dchildren,
 			"transportation" => $transportation
 		]);
-		do_action( 'woocommerce_after_add_to_cart_quantity' ); ?>
-
-		<button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="single_add_to_cart_button button alt"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
+		do_action( 'woocommerce_after_add_to_cart_quantity' );
+		
+		wc_get_template("global/souvenirs.php", [
+			"product" => $product,
+		]); ?>
 
 		<?php do_action( 'woocommerce_after_add_to_cart_button' ); ?>
 	</form>

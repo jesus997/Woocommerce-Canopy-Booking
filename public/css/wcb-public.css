@@ -734,7 +734,8 @@
 
 .variation-is_vehicle, .variation-type_vehicle,
 .variation-adults_price, .variation-children_price,
-.variation-vehicle_price, .variation-passenger_limit {
+.variation-vehicle_price, .variation-passenger_limit,
+.variation-is_plus {
   display: none !important; }
 
 .children_quantity_input {
@@ -742,5 +743,33 @@
   align-items: center; }
   .children_quantity_input small {
     font-size: 90%; }
+
+.souvenirs-container .souvenir-call-to-action .souvenir-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem; }
+  .souvenirs-container .souvenir-call-to-action .souvenir-buttons .souvenir_add_to_cart_link {
+    background-color: transparent;
+    border: navajowhite;
+    text-decoration: underline;
+    color: #112821;
+    font-size: .9rem;
+    cursor: pointer;
+    margin-top: 1.4rem;
+    transition: color .2s; }
+    .souvenirs-container .souvenir-call-to-action .souvenir-buttons .souvenir_add_to_cart_link:hover, .souvenirs-container .souvenir-call-to-action .souvenir-buttons .souvenir_add_to_cart_link:focus {
+      color: #98c223;
+      transition: color .2s; }
+
+.woocommerce-order-souvenirs-list .woocommerce-order-souvenirs-list__list {
+  padding: 20px;
+  padding-left: 20px;
+  padding-left: 40px;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px; }
+
+.woocommerce .woocommerce-customer-details address {
+  padding: 20px; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIuL3B1YmxpYy9jc3Mvd2NiLXB1YmxpYy5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/

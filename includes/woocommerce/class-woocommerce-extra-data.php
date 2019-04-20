@@ -23,7 +23,8 @@ class WCB_Woocommerce_Extra_Data {
             "__adults_price" => "adults_price",
             "__children_price" => "children_price",
             "__vehicle_price" => "vehicle_price",
-            "__passenger_limit" => "passenger_limit"  
+            "__passenger_limit" => "passenger_limit",
+            "__is_plus" => "is_plus"
         ];
     }
     
@@ -51,12 +52,16 @@ class WCB_Woocommerce_Extra_Data {
 
     function tours_add_item_data($cart_item_data, $product_id, $variation_id) {
         $tour_date = date("d/m/Y");
+        $is_plus = false;
         foreach ($this->attrs as $attr => $name) {
             if(isset($_REQUEST[$attr])) {
                 if($this->tour_filter($attr))continue;
                 $cart_item_data[$attr] = sanitize_text_field($_REQUEST[$attr]);
                 if($attr === "_tour_date") {
                     $tour_date = sanitize_text_field($_REQUEST[$attr]);
+                }else if($attr === "__is_plus") {
+                    $is_plus = boolval($_REQUEST[$attr]);
+                    $cart_item_data[$attr] = $is_plus;
                 }
             } else if($attr === "__is_vehicle") {
                 $cart_item_data[$attr] = value("is_vehicle", false, $product_id);
@@ -80,28 +85,44 @@ class WCB_Woocommerce_Extra_Data {
                 $cart_item_data[$attr] = value("passenger_limit", 1, $variation_id);
             }
         }
-        $discount = $this->calculate_date_discount($tour_date);
-        $bnfd = $this->calculate_two_dates_discount("9/04/2019", "25/04/2019", 25, $tour_date);
-        $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
 
-        $lang = substr( get_bloginfo ( 'language' ), 0, 2 );
+        $discount_active = true;
+        $souvenir_days_to_apply = value("days_of_anticipation_to_apply_this_souvenir", 0, $product_id);
+        $souvenir_is_valid = $souvenir_days_to_apply > 0 ? !boolval($this->calculate_date_discount($tour_date, $souvenir_days_to_apply, 1)) : false;
 
-        $rbd = false;
-
-        if($lang === "es") {
-            if($bnfd > 0) {
-                $cart_item_data["_bnf_discount"] = "-$bnfd% OFF";
-                $rbd = true;
-            }
-        } else if($lang === "en") {
-            if($blfd > 0) {
-                $cart_item_data["_blf_discount"] = "-$blfd% OFF";
-                $rbd = true;
+        if($is_plus) {
+            $souvenir_active = value("souvenir_active", false, $product_id);
+            if($souvenir_active && $souvenir_is_valid) {
+                $discount_active = value("souvenir_valid_with_other_discounts", true, $product_id);
+            } else {
+                $cart_item_data["__is_plus"] = false;
             }
         }
 
-        if($discount > 0 && !$rbd) {
-            $cart_item_data["_early_discount"] = "-$discount% OFF";
+        if($discount_active) {
+            $discount = $this->calculate_date_discount($tour_date);
+            $bnfd = $this->calculate_two_dates_discount("9/04/2019", "20/04/2019", 25, $tour_date);
+            $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
+
+            $lang = substr( get_bloginfo ( 'language' ), 0, 2 );
+
+            $rbd = false;
+
+            if($lang === "es") {
+                if($bnfd > 0) {
+                    $cart_item_data["_bnf_discount"] = "-$bnfd% OFF";
+                    $rbd = true;
+                }
+            } else if($lang === "en") {
+                if($blfd > 0) {
+                    $cart_item_data["_blf_discount"] = "-$blfd% OFF";
+                    $rbd = true;
+                }
+            }
+
+            if($discount > 0 && !$rbd) {
+                $cart_item_data["_early_discount"] = "-$discount% OFF";
+            }
         }
 
         return $cart_item_data;
@@ -143,12 +164,16 @@ class WCB_Woocommerce_Extra_Data {
         return 0;
     }
 
-    function calculate_date_discount($tour_date) {
+    function calculate_date_discount($tour_date, $dbr = null, $ptd = null) {
         $edeb = value("enable_discount_for_early_booking", true, "wcb-options");
         $d = 0;
         if($edeb) {
-            $dbr = value("days_before_the_reservation", 30, "wcb-options");
-            $ptd = value("percentage_to_discount", 15, "wcb-options");
+            if(is_null($dbr)) {
+                $dbr = value("days_before_the_reservation", 30, "wcb-options");
+            }
+            if(is_null($ptd)) {
+                $ptd = value("percentage_to_discount", 15, "wcb-options");
+            }
             $today = DateTime::createFromFormat("d/m/Y", date("d/m/Y"));
             $tour_date = DateTime::createFromFormat("d/m/Y", $tour_date);
 
@@ -184,80 +209,85 @@ class WCB_Woocommerce_Extra_Data {
         if ( ! empty( $cart->cart_contents ) ) {
             foreach ( $cart->cart_contents as $cart_item_key => $cart_item ) {
                 $product = $cart_item['data'];
-                if($product->is_type( 'canopytour' )) {
-                    $adults = isset($cart_item['_tour_adults']) ? $cart_item['_tour_adults'] : 1;
-                    $childs = isset($cart_item['_tour_children']) ? $cart_item['_tour_children'] : 0;
+                if($product->is_type( 'canopytour' ) || get_post_type($product->get_id()) === "product_variation") {
                     $rdate = isset($cart_item['_tour_date']) ? $cart_item['_tour_date'] : date("d/m/Y");
+                    $is_plus = isset($cart_item['__is_plus']) ? $cart_item['__is_plus'] : false;
+                    $souvenir_count = 1;
                     $discount = $this->calculate_date_discount($rdate);
-                    $regular_price = $product->get_price();
-                    $second_price = get_post_meta( $product->get_id(), 'second_price', true);
-                    $second_price = empty($second_price) ? 0 : $second_price;
-                    $new_price = ($regular_price * $adults) + ($second_price * $childs);
-
-                    /* Buen Fin Descuento */
-                    $bnfd = $this->calculate_two_dates_discount("9/04/2019", "25/04/2019", 25, $rdate);
-                    /* Black Friday Descuento */
-                    $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
-
-                    $lang = substr( get_bloginfo ( 'language' ), 0, 2 );
-
-                    $rbd = false;
-
-                    if($lang === "es") {
-                        if($bnfd > 0) {
-                            $new_price -= ($new_price * $bnfd) / 100;
-                            $rbd = true;
-                        }
-                    } else if($lang === "en") {
-                        if($blfd > 0) {
-                            $new_price -= ($new_price * $blfd) / 100;
-                            $rbd = true;
-                        }
+                    if($product->is_type( 'canopytour' )) {
+                        $adults = isset($cart_item['_tour_adults']) ? $cart_item['_tour_adults'] : 1;
+                        $childs = isset($cart_item['_tour_children']) ? $cart_item['_tour_children'] : 0;
+                        $regular_price = $product->get_price();
+                        $second_price = get_post_meta( $product->get_id(), 'second_price', true);
+                        $second_price = empty($second_price) ? 0 : $second_price;
+                        $new_price = ($regular_price * $adults) + ($second_price * $childs);
+                        $souvenir_count = $adults;
+                    } else if( get_post_type($product->get_id()) === "product_variation" ) {
+                        $pid = $cart_item['product_id'];
+                        $vid = $cart_item['variation_id'];
+                        $varitem = $this->get_variation_price_by_id($pid, $vid);
+                        $regular_price = $varitem->regular_price;
+                        /*$qty = $cart_item['quantity'];
+                        $new_price = ($regular_price * $qty);*/
+                        $new_price = $regular_price;
                     }
 
-                    if($discount > 0 && !$rbd) {
-                        $new_price -= ($new_price * $discount)/100;
-                        //$cart->add_fee('Descuento 15%', -(($new_price * $discount)/100), true, '');
-                    }
+                    $discount_active = true;
+                    $souvenir_days_to_apply = value("days_of_anticipation_to_apply_this_souvenir", 0, $product->get_id());
+                    $souvenir_is_valid = $souvenir_days_to_apply > 0 ? !boolval($this->calculate_date_discount($rdate, $souvenir_days_to_apply, 1)) : false;
 
-                    $cart_item['data']->set_price( $new_price );
-                    remove_action( 'woocommerce_before_calculate_totals', array($this, 'tours_calculate_totals'), 99 );
-                } else if( get_post_type($product->get_id()) === "product_variation" ) {
-                    $rdate = isset($cart_item['_tour_date']) ? $cart_item['_tour_date'] : date("d/m/Y");
-                    $discount = $this->calculate_date_discount($rdate);
-                    $pid = $cart_item['product_id'];
-                    $vid = $cart_item['variation_id'];
-                    $varitem = $this->get_variation_price_by_id($pid, $vid);
-                    $regular_price = $varitem->regular_price;
-                    /*$qty = $cart_item['quantity'];
-                    $new_price = ($regular_price * $qty);*/
-                    $new_price = $regular_price;
-
-                    /* Buen Fin Descuento */
-                    $bnfd = $this->calculate_two_dates_discount("9/04/2019", "25/04/2019", 25, $rdate);
-                    /* Black Friday Descuento */
-                    $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
-
-                    $lang = substr( get_bloginfo ( 'language' ), 0, 2 );
-
-                    $rbd = false;
-
-                    if($lang === "es") {
-                        if($bnfd > 0) {
-                            $new_price -= ($new_price * $bnfd) / 100;
-                            $rbd = true;
-                        }
-                    } else if($lang === "en") {
-                        if($blfd > 0) {
-                            $new_price -= ($new_price * $blfd) / 100;
-                            $rbd = true;
+                    if($is_plus) {
+                        $souvenir_active = value("souvenir_active", false, $product->get_id());
+                        if($souvenir_active && $souvenir_is_valid) {
+                            $discount_active = value("souvenir_valid_with_other_discounts", true, $product->get_id());
+                            $souvenir_name = value("souvenir_name", "Souvenir Plus", $product->get_id());
+                            $increase_price = value("souvenir_increase_price", false, $product->get_id());
+                            $fee = 0;
+                            if($increase_price) {
+                                $souvenir_price = value("souvenir_price", 0, $product->get_id());
+                                if($souvenir_price > $regular_price) {
+                                    $fee = ($souvenir_price - $regular_price) * $souvenir_count;
+                                } else if($souvenir_price < $regular_price) {
+                                    $fee = (($regular_price - $souvenir_price) * $souvenir_count) * -1;
+                                }
+                            }
+                            $cart->add_fee("$souvenir_name × $souvenir_count", $fee, true, '');
+                            if( method_exists( $product, 'set_name' ) ) {
+                                $product->set_name( $souvenir_name );
+                            } else {
+                                $product->post->post_title = $souvenir_name;
+                            }
                         }
                     }
 
-                    if($discount > 0 && !$rbd) {
-                        $new_price -= ($new_price * $discount)/100;
+                    if($discount_active) {
+                        /* Buen Fin Descuento */
+                        $bnfd = $this->calculate_two_dates_discount("9/04/2019", "25/04/2019", 25, $rdate);
+                        /* Black Friday Descuento */
+                        $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
+        
+                        $lang = substr( get_bloginfo ( 'language' ), 0, 2 );
+        
+                        $rbd = false;
+        
+                        if($lang === "es") {
+                            if($bnfd > 0) {
+                                $new_price -= ($new_price * $bnfd) / 100;
+                                $rbd = true;
+                            }
+                        } else if($lang === "en") {
+                            if($blfd > 0) {
+                                $new_price -= ($new_price * $blfd) / 100;
+                                $rbd = true;
+                            }
+                        }
+        
+                        if($discount > 0 && !$rbd) {
+                            $new_price -= ($new_price * $discount)/100;
+                            //$cart->add_fee('Descuento 15%', -(($new_price * $discount)/100), true, '');
+                        }
                     }
-
+    
                     $cart_item['data']->set_price( $new_price );
                     remove_action( 'woocommerce_before_calculate_totals', array($this, 'tours_calculate_totals'), 99 );
                 }
@@ -308,5 +338,39 @@ class WCB_Woocommerce_Extra_Data {
     function wcb_add_passenger_limit_field_variation_data( $variations ) {
         $variations['passenger_limit'] = '<div class="woocommerce_passenger_limit">'.__( 'Passenger limit', 'wcb' ).': <span>' . get_post_meta( $variations[ 'variation_id' ], 'passenger_limit', true ) . '</span></div>';
         return $variations;
+    }
+
+    function wcb_email_after_order_table($order, $sent_to_admin = false, $plain_text = false, $email = false) {
+        $products = [];
+        $is_email   = (!$sent_to_admin && !$plain_text && !$email) ? false : true;
+        foreach ($order->get_items() as $item_id => $item_data) {
+            $product    = $item_data->get_product();
+            $metadata   = $item_data->get_meta_data();
+
+            foreach($metadata as $metadata_key => $metadata_value) {
+                if($metadata_value->__get("key") === "__is_plus") {
+                    $is_plus = boolval($metadata_value->__get("value"));
+                    if(boolval($is_plus)) {
+                        $products[] = [
+                            "product_id" => $product->get_id(),
+                            "metadata" => $metadata
+                        ];
+                    }
+                }
+            }
+        }
+
+        if(count($products) > 0) {
+            wc_get_template("global/ticket-souvenirs.php", [
+                "products" => $products,
+                "is_email" => $is_email
+            ]);
+        }
+    }
+
+    function wcb_add_css_to_emails() { ?>
+        <style type="text/css">
+            
+        </style> <?php
     }
 }

@@ -90,8 +90,11 @@ function value($key, $default=false, $id=false) {
 		$tmp = get_post_meta($id, $key, true);
 		return trim($tmp) !== "" ? $tmp : $default;
 	} else if(function_exists("get_field")) {
-		$tmp = get_field($key, $id);
-		return $tmp ? $tmp : $default;
+        $tmp = get_field($key, $id);
+        if(is_bool($tmp) && is_bool($default)) {
+            return $tmp;
+        }
+		return !$tmp ? $default : $tmp;
 	}
 	return $default;
 }
@@ -228,6 +231,20 @@ function request($id, $default=false, $method="post") {
 function dd($data, $die=false) {
 	echo "<pre>"; print_r($data); echo "</pre>";
 	if($die) die();
+}
+
+function humanize_souvenirs_array(array $souvenirs) {
+    $souvenirs_humanized = [];
+    foreach ($souvenirs as $key => $souvenir) {
+        $souvenirs_humanized[] = $souvenir["amount"]." ".$souvenir["name"];
+    }
+    return humanize_array_list($souvenirs_humanized);
+}
+
+function humanize_array_list(array $array) {
+    $glue = __("and", "wcb");
+    array_splice($array, -2, 2, implode(" </strong>$glue<strong> ", array_slice($array, -2)));
+    return "<strong>".implode('</strong>, <strong>', $array)."</strong>";
 }
 
 /**

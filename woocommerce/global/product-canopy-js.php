@@ -6,7 +6,8 @@ $trans_i18n = [
 ];
 $tour_date = isset($ddate) && !empty($ddate) ? $ddate : date("d/m/Y");
 $tour_date = \DateTime::createFromFormat('d/m/Y', $tour_date);
-$tour_date = $tour_date->format('Y/m/d');
+$tour_date = $tour_date->format('D M d Y H:i:s O');
+$doatats = value("days_of_anticipation_to_apply_this_souvenir", 0, $product->get_id());
 ?>
 <script>
 	var TRANSI18N = <?= json_encode($trans_i18n) ?>;
@@ -82,9 +83,31 @@ $tour_date = $tour_date->format('Y/m/d');
 							disabled: isDisabled
 						}
 					}
+				},
+				onSelect: function onSelect(fd, date) {
+					var doatats = <?= $doatats ?>;
+					if(doatats > 0) {
+						var today = new Date();
+						var timeDiff = Math.abs(today.getTime() - date.getTime());
+						var days = Math.ceil(timeDiff / (1000 * 3600 * 24));
+						if(days <= doatats) {
+							$(".souvenirs-container").show(500);
+							$(".default_single_add_to_cart_button").hide(500);
+						} else {
+							$(".souvenirs-container").hide(500);
+							$(".default_single_add_to_cart_button").show(500);
+						}
+					}
 				}
 			};
-			dp.datepicker(opt);
+			var tour_date = dp.datepicker(opt).data('datepicker');
+			tour_date.selectDate(new Date("<?= $tour_date ?>"));
+			$(".souvenir_add_to_cart_button").on("click", function() {
+                $("#souvenir_hidden_input").val("1");
+            });
+            $(".souvenir_add_to_cart_link").on("click", function() {
+                $("#souvenir_hidden_input").val("0");
+            });
 		});
 	})(jQuery);
 </script>
