@@ -262,7 +262,7 @@ class WCB_Woocommerce_Extra_Data {
 
                     if($discount_active) {
                         /* Buen Fin Descuento */
-                        $bnfd = $this->calculate_two_dates_discount("9/04/2019", "25/04/2019", 25, $rdate);
+                        $bnfd = $this->calculate_two_dates_discount("9/04/2019", "20/04/2019", 25, $rdate);
                         /* Black Friday Descuento */
                         $blfd = $this->calculate_two_dates_discount("22/11/2018", "25/11/2018");
         
