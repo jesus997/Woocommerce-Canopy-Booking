@@ -281,3 +281,29 @@ msgstr ""
 
 msgid "Discount"
 msgstr ""
+
+#: woocommerce/global/ticket-souvenirs.php:67
+#: woocommerce/global/ticket-souvenirs.php:84
+msgid "Your purchase includes"
+msgstr ""
+
+#: woocommerce/global/souvenirs.php:10
+#: woocommerce/global/souvenirs.php:41
+msgid "Book with %s days or less in advance and get %s."
+msgstr ""
+
+#: woocommerce/global/souvenirs.php:16
+msgid "For a small additional price receive %s."
+msgstr ""
+
+#: woocommerce/global/souvenirs.php:28
+msgid "I want the PLUS experience"
+msgstr ""
+
+#: woocommerce/global/souvenirs.php:29
+msgid "Maybe another day, I want the normal experience"
+msgstr ""
+
+#: wcb.php:245
+msgid "and"
+msgstr ""

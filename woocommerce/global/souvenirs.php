@@ -7,10 +7,15 @@ $increase_price = value("souvenir_increase_price", false, $product_id);
 $new_price = value("souvenir_price", 0, $product_id);
 $doatats = value("days_of_anticipation_to_apply_this_souvenir", 0, $product_id);
 $gifts = value("souvenir_gifts", [], $product_id);
-$souvenir_price_text = sprintf(__("completely <strong>free</strong>", "wcb"), wc_price($new_price));
+$call_to_action_text = sprintf(__("Book with %s days or less in advance and get %s.", "wcb"),
+    $doatats,
+    humanize_souvenirs_array($gifts)
+);
 
 if($increase_price && $new_price > 0) {
-    $souvenir_price_text = sprintf(__("for only %s per adult", "wcb"), wc_price($new_price));
+    $call_to_action_text = sprintf(__("For a small additional price receive %s.", "wcb"),
+        humanize_souvenirs_array($gifts)
+    );
 }
 
 if($sactive) { ?>
@@ -18,17 +23,7 @@ if($sactive) { ?>
 <div class="souvenirs-container"<?= $doatats > 0 ? " style=\"display:none;\"" : "" ?>>
     <div class="souvenirs-wrapper">
         <div class="souvenir-call-to-action">
-            <p><?= sprintf(__("Turn your adventure into <strong>%s</strong> %s and receive upon your arrival", "wcb"),
-                    $name,
-                    $souvenir_price_text
-                )
-            ?>:</p>
-            <ul><?php
-                foreach ($gifts as $key => $gift) { ?>
-                    <li><?= $gift['amount'] ?> <?= $gift['name'] ?></li> <?php
-                }?>
-            </ul>
-
+            <p><?= $call_to_action_text ?></p>
             <div class="souvenir-buttons">
                 <button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="single_add_to_cart_button souvenir_add_to_cart_button button alt"><?php echo esc_html( __("I want the PLUS experience", "wcb") ); ?></button>
                 <button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="souvenir_add_to_cart_link"><?php echo esc_html( __("Maybe another day, I want the normal experience", "wcb") ); ?></button>
