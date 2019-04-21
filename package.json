@@ -1,6 +1,6 @@
 {
   "name": "woocommerce-canopy-booking",
-  "version": "2.2.9",
+  "version": "2.3.0",
   "description": "This plugin adds the functionality of a Booking for websites dedicated to the sale of Canopy Tours.",
   "main": "webpack.config.js",
   "scripts": {
