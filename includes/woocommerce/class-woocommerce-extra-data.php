@@ -87,16 +87,12 @@ class WCB_Woocommerce_Extra_Data {
         }
 
         $discount_active = true;
-        $souvenir_days_to_apply = value("days_of_anticipation_to_apply_this_souvenir", 0, $product_id);
-        $souvenir_is_valid = $souvenir_days_to_apply > 0 ? !boolval($this->calculate_date_discount($tour_date, $souvenir_days_to_apply, 1)) : false;
-
-        if($is_plus) {
-            $souvenir_active = value("souvenir_active", false, $product_id);
-            if($souvenir_active && $souvenir_is_valid) {
-                $discount_active = value("souvenir_valid_with_other_discounts", true, $product_id);
-            } else {
-                $cart_item_data["__is_plus"] = false;
-            }
+        $souvenir_active = value("souvenir_active", false, $product_id);
+        
+        if($souvenir_active) {
+            $discount_active = value("souvenir_valid_with_other_discounts", true, $product_id);
+        } else {
+            $cart_item_data["__is_plus"] = false;
         }
 
         if($discount_active) {
@@ -164,7 +160,7 @@ class WCB_Woocommerce_Extra_Data {
         return 0;
     }
 
-    function calculate_date_discount($tour_date, $dbr = null, $ptd = null) {
+    function calculate_date_discount($tour_date, $dbr = null, $ptd = null, $operator = ">=") {
         $edeb = value("enable_discount_for_early_booking", true, "wcb-options");
         $d = 0;
         if($edeb) {
@@ -179,7 +175,28 @@ class WCB_Woocommerce_Extra_Data {
 
             if($today && $tour_date) {
                 $diff = $tour_date->diff($today)->format("%a");
-                if(intval($diff) >= $dbr) {
+                $result = false;
+                switch ($operator) {
+                    case ">":
+                        $result = intval($diff) > $dbr;
+                        break;
+                    case "<":
+                        $result = intval($diff) < $dbr;
+                        break;
+                    case "==":
+                        $result = intval($diff) == $dbr;
+                        break;
+                    case "===":
+                        $result = intval($diff) === $dbr;
+                        break;
+                    case ">=":
+                        $result = intval($diff) >= $dbr;
+                        break;
+                    case "<=":
+                        $result = intval($diff) <= $dbr;
+                        break;
+                }
+                if($result) {
                     return intval($ptd);
                 }
             }
@@ -211,7 +228,6 @@ class WCB_Woocommerce_Extra_Data {
                 $product = $cart_item['data'];
                 if($product->is_type( 'canopytour' ) || get_post_type($product->get_id()) === "product_variation") {
                     $rdate = isset($cart_item['_tour_date']) ? $cart_item['_tour_date'] : date("d/m/Y");
-                    $is_plus = isset($cart_item['__is_plus']) ? $cart_item['__is_plus'] : false;
                     $souvenir_count = 1;
                     $discount = $this->calculate_date_discount($rdate);
                     if($product->is_type( 'canopytour' )) {
@@ -234,12 +250,14 @@ class WCB_Woocommerce_Extra_Data {
 
                     $discount_active = true;
                     $souvenir_days_to_apply = value("days_of_anticipation_to_apply_this_souvenir", 0, $product->get_id());
-                    $souvenir_is_valid = $souvenir_days_to_apply > 0 ? !boolval($this->calculate_date_discount($rdate, $souvenir_days_to_apply, 1)) : false;
+                    $souvenir_is_valid = $souvenir_days_to_apply > 0 ? boolval($this->calculate_date_discount($rdate, $souvenir_days_to_apply, 1, "<=")) : true;
+                    $is_plus = isset($cart_item['__is_plus']) ? $cart_item['__is_plus'] : false;
 
-                    if($is_plus) {
-                        $souvenir_active = value("souvenir_active", false, $product->get_id());
-                        if($souvenir_active && $souvenir_is_valid) {
-                            $discount_active = value("souvenir_valid_with_other_discounts", true, $product->get_id());
+                    $souvenir_active = value("souvenir_active", false, $product->get_id());
+
+                    if($souvenir_active) {
+                        $discount_active = value("souvenir_valid_with_other_discounts", true, $product->get_id());
+                        if($souvenir_is_valid && $is_plus) {
                             $souvenir_name = value("souvenir_name", "Souvenir Plus", $product->get_id());
                             $increase_price = value("souvenir_increase_price", false, $product->get_id());
                             $fee = 0;

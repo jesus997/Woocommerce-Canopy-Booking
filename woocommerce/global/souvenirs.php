@@ -7,10 +7,17 @@ $increase_price = value("souvenir_increase_price", false, $product_id);
 $new_price = value("souvenir_price", 0, $product_id);
 $doatats = value("days_of_anticipation_to_apply_this_souvenir", 0, $product_id);
 $gifts = value("souvenir_gifts", [], $product_id);
-$call_to_action_text = sprintf(__("Book with %s days or less in advance and get %s.", "wcb"),
-    $doatats,
-    humanize_souvenirs_array($gifts)
-);
+
+if($doatats < 1) {
+    $call_to_action_text = sprintf(__("Book now and get %s.", "wcb"),
+        humanize_souvenirs_array($gifts)
+    );
+} else {
+    $call_to_action_text = sprintf(__("Book with %s days or less in advance and get %s.", "wcb"),
+        $doatats,
+        humanize_souvenirs_array($gifts)
+    );
+}
 
 if($increase_price && $new_price > 0) {
     $call_to_action_text = sprintf(__("For a small additional price receive %s.", "wcb"),

@@ -318,19 +318,23 @@ msgstr "Este producto no se encuentra disponible temporalmente."
 msgid "Your purchase includes"
 msgstr "Tu compra incluye"
 
-#: woocommerce/global/souvenirs.php:10 woocommerce/global/souvenirs.php:41
+#: woocommerce/global/souvenirs.php:12 woocommerce/global/souvenirs.php:42
+msgid "Book now and get %s."
+msgstr "Reserva ahora y obtén %s."
+
+#: woocommerce/global/souvenirs.php:16 woocommerce/global/souvenirs.php:47
 msgid "Book with %s days or less in advance and get %s."
 msgstr "Reserva con %s días o menos de anticipación y obtén %s."
 
-#: woocommerce/global/souvenirs.php:16
+#: woocommerce/global/souvenirs.php:23
 msgid "For a small additional price receive %s."
 msgstr "Por un pequeño pago adicional recibe %s."
 
-#: woocommerce/global/souvenirs.php:28
+#: woocommerce/global/souvenirs.php:35
 msgid "I want the PLUS experience"
 msgstr "Quiero la experiencia PLUS"
 
-#: woocommerce/global/souvenirs.php:29
+#: woocommerce/global/souvenirs.php:36
 msgid "Maybe another day, I want the normal experience"
 msgstr "Tal vez otro día, quiero la experiencia normal"
 
