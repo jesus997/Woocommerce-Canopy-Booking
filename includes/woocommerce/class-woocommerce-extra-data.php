@@ -86,11 +86,11 @@ class WCB_Woocommerce_Extra_Data {
             }
         }
 
-        $discount_active = true;
+        $discount_active = value("souvenir_valid_with_other_discounts", true, $product_id);
         $souvenir_active = value("souvenir_active", false, $product_id);
         
         if($souvenir_active) {
-            $discount_active = value("souvenir_valid_with_other_discounts", true, $product_id);
+            $discount_active = false;
         } else {
             $cart_item_data["__is_plus"] = false;
         }
@@ -248,7 +248,7 @@ class WCB_Woocommerce_Extra_Data {
                         $new_price = $regular_price;
                     }
 
-                    $discount_active = true;
+                    $discount_active = $discount_active = value("souvenir_valid_with_other_discounts", true, $product->get_id());
                     $souvenir_days_to_apply = value("days_of_anticipation_to_apply_this_souvenir", 0, $product->get_id());
                     $souvenir_is_valid = $souvenir_days_to_apply > 0 ? boolval($this->calculate_date_discount($rdate, $souvenir_days_to_apply, 1, "<=")) : true;
                     $is_plus = isset($cart_item['__is_plus']) ? $cart_item['__is_plus'] : false;
@@ -256,7 +256,7 @@ class WCB_Woocommerce_Extra_Data {
                     $souvenir_active = value("souvenir_active", false, $product->get_id());
 
                     if($souvenir_active) {
-                        $discount_active = value("souvenir_valid_with_other_discounts", true, $product->get_id());
+                        $discount_active = false;
                         if($souvenir_is_valid && $is_plus) {
                             $souvenir_name = value("souvenir_name", "Souvenir Plus", $product->get_id());
                             $increase_price = value("souvenir_increase_price", false, $product->get_id());
