@@ -6,6 +6,7 @@ $trans_i18n = [
 ];
 $tour_date = isset($ddate) && !empty($ddate) ? $ddate : date("d/m/Y");
 $tour_date = \DateTime::createFromFormat('d/m/Y', $tour_date);
+$tour_date->add(new DateInterval('P1D'));
 $tour_date = $tour_date->format('D M d Y H:i:s O');
 $doatats = value("days_of_anticipation_to_apply_this_souvenir", 0, $product->get_id());
 ?>

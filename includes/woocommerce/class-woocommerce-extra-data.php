@@ -88,11 +88,7 @@ class WCB_Woocommerce_Extra_Data {
 
         $discount_active = value("souvenir_valid_with_other_discounts", true, $product_id);
         $souvenir_active = value("souvenir_active", false, $product_id);
-        $valid_plus_promotion = $this->is_valid_plus_promotion($product_id, $tour_date);
-        
-        if($souvenir_active) {
-            $discount_active = $valid_plus_promotion ? false : $discount_active;
-        } else {
+        if(!$souvenir_active) {
             $cart_item_data["__is_plus"] = false;
         }
 
@@ -262,7 +258,6 @@ class WCB_Woocommerce_Extra_Data {
                     $souvenir_active = value("souvenir_active", false, $product->get_id());
 
                     if($souvenir_active) {
-                        $discount_active = $souvenir_is_valid ? false : $discount_active;
                         if($souvenir_is_valid && $is_plus) {
                             $souvenir_name = value("souvenir_name", "Souvenir Plus", $product->get_id());
                             $increase_price = value("souvenir_increase_price", false, $product->get_id());
