@@ -179,6 +179,7 @@ class WCB {
 			$this->loader->add_action( 'admin_head', $woo_ct, 'wcb_admin_head' );
 			$this->loader->add_action( 'admin_footer', $woo_ct, 'wcb_admin_footer' );
 			$this->loader->add_filter( 'woocommerce_product_data_tabs', $woo_ct, 'hide_wcb_data_panel' );
+			$this->loader->add_filter( 'after_setup_theme', $woo_ct, 'canopy_wc_setup' );
 
 			$this->loader->add_action( 'woocommerce_after_product_attribute_settings', $woo_ct, 'wcb_add_product_attribute_is_highlighted', 10, 2);
 			$this->loader->add_action( 'wp_ajax_woocommerce_save_attributes', $woo_ct, 'wcb_ajax_woocommerce_save_attributes', 10);

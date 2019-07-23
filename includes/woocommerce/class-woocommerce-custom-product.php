@@ -8,8 +8,16 @@ class WCB_Woocommerce_CanopyTour_Product_Type {
 		$this->wcb = $wcb;
 		$this->version = $version;
 	}
+ 
+	function canopy_wc_setup() {
+		add_theme_support( 'woocommerce' );
+		add_theme_support( 'wc-product-gallery-zoom' );
+		add_theme_support( 'wc-product-gallery-lightbox' );
+		add_theme_support( 'wc-product-gallery-slider' );
+	}
 
 	public function register_canopytour_product_type() {
+		remove_action( 'woocommerce_sidebar', 'woocommerce_get_sidebar', 10 );
 		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 		
 		include_once(plugin_dir_path( dirname( __FILE__ ) ) . 'woocommerce/WC_Product_canopytour.php');
