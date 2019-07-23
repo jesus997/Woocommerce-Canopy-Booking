@@ -44,7 +44,7 @@ if ( $max_value && $min_value === $max_value ) {
 			aria-labelledby="<?php echo esc_attr( $labelledby ); ?>" />
 			<?php } else { ?>
 			/>
-			<? } ?>
+			<?php } ?>
 		<input class="plus" type="button" value="+">
 	</div>
 	<?php

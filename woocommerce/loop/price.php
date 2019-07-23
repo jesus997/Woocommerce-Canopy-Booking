@@ -23,7 +23,7 @@ $price = $product->get_price();
 ?>
 
 <?php if ( '' !== $price ) :
-	if($product->is_type( 'canopytour' ) && $second_price > 0) :
+	if($product->is_type( 'canopytour' )) :
 		$price = value("second_price", 0, $product->get_id());
 	endif; ?>
 	<span class="price"><?= __("From ", "wcb")." ".wc_price($price); ?></span>
