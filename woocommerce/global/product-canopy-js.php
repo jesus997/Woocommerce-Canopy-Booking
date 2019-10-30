@@ -65,7 +65,7 @@ $tour_date = $tour_date->format('Y/m/d');
 			blocked_days = [<?= implode(",", $blocked_days) ?>],
 			dates_blocked = ["<?= implode("\",\"", simplificyDates($dates_blocked)) ?>"],
 			today = new Date(),
-			tomorrow = new Date(today.getTime()+(1000*60*60*24)),
+			tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2),
 			opt = {
 				language: '<?= substr(get_locale(), 0, 2) ?>',
 				minDate: tomorrow,
